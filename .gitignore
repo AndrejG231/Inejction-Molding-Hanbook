@@ -75,3 +75,6 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+#private content
+web-app/src/private/*.json
