@@ -17,22 +17,23 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
   const [navRoute, setNavRoute] = React.useState("list");
   const nav = useHistory();
 
-  const handleRouteChange: NavRouteChangeHandle = (nextRoute) => {
-    setNavRoute(nextRoute);
-  };
-
   useEffect(() => {
     nav.push(`/${navRoute}/`);
   }, [navRoute, nav]);
 
   return (
-    <Flex h="100vh" bg="cyan.100" direction="column">
-      <Box flex={1}>
-        <Box minH="100%" maxH="100%" bg="cyan.100" overflowY="scroll">
-          {children}
-        </Box>
+    <Flex maxH="100vh" h="100vh" bg="cyan.100" direction="column">
+      <Box h="95%" maxH="93%">
+        {children}
       </Box>
-      <Flex justify="space-evenly" py="4px" bg="cyan.300">
+      <Flex
+        justify="space-evenly"
+        py="4px"
+        px="5px"
+        bg="cyan.300"
+        h="7%"
+        align="center"
+      >
         {Object.keys(NavItems).map((item, index) => {
           const Icon = NavItems[item];
           return (
@@ -40,11 +41,11 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
               isActive={false}
               _focus={{ boxShadow: "none" }}
               leftIcon={<Icon />}
-              fontSize="24px"
+              fontSize="5vw"
               textTransform="capitalize"
               colorScheme={navRoute === item ? "red" : "blue"}
               flex={1}
-              mx="5px"
+              mx="8px"
               key={index}
               onClick={() => setNavRoute(item)}
             >
