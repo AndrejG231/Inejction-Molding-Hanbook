@@ -1,28 +1,14 @@
 import React, { FC } from "react";
 import { Center, VStack } from "@chakra-ui/react";
-
-import partsJson from "../private/parts.json";
-import projectsJson from "../private/projects.json";
-import pressesJson from "../private/presses.json";
-import materialsJson from "../private/materials.json";
-
 import { useHistory } from "react-router-dom";
-import {
-  partsJsonTypes,
-  partsMaterialTypes,
-  partsMoldTypes,
-  partsProjectTypes,
-} from "../types/jsonTypes";
+
+import { parts, materials, categories, imms } from "../private/data";
+
 import {
   PartProps,
   PartListProps,
   CategoryProps,
 } from "../types/partListTypes";
-
-const parts: partsJsonTypes = partsJson;
-const categories: partsProjectTypes = projectsJson;
-const imms: partsMoldTypes = pressesJson;
-const materials: partsMaterialTypes = materialsJson;
 
 export const Part: FC<PartProps> = ({ part }) => {
   const nav = useHistory();
@@ -63,18 +49,6 @@ export const PartCategory: FC<CategoryProps> = ({ children }) => {
     </Center>
   );
 };
-// const getList = () => {
-//   const list: any = {};
-//   Object.keys(oParts).forEach((part) => {
-//     if (list.hasOwnProperty(oParts[part].project)) {
-//       list[oParts[part].project].push(part);
-//     } else {
-//       list[oParts[part].project] = [part];
-//     }
-//   });
-
-//   return list;
-// };
 
 export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   switch (variant) {
