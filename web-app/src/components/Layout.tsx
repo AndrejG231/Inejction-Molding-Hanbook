@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import { BsListTask } from "react-icons/bs";
 import { FaSourcetree } from "react-icons/fa";
 import { BiMapAlt } from "react-icons/bi";
-import { LayoutProps, NavRouteChangeHandle } from "../types/layoutTypes";
+import { LayoutProps } from "../types/layoutTypes";
 import { useHistory } from "react-router-dom";
 import { Box, Button, Flex } from "@chakra-ui/react";
 

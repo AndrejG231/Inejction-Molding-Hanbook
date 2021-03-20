@@ -2,7 +2,7 @@ import { ReactChild } from "react";
 import { IconType } from "react-icons/lib";
 
 export type LayoutProps = {
-  children: ReactChild;
+  children: ReactChild | ReactChild[];
 };
 
 export type NavRouteChangeHandle = {

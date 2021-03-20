@@ -4,21 +4,18 @@ import {
   Flex,
   Button,
   Box,
-  VStack,
-  Center,
   Input,
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import partsJson from "../private/parts.json";
-import { useHistory } from "react-router-dom";
+import { PartListDisplay } from "../components/PartListComponents";
+import { PartListTypes } from "../types/partListTypes";
 
-const parts: any = partsJson;
 
-const NavItems = ["Mold", "Category", "IMM", "Material"];
+const NavItems: PartListTypes[] = ["mold", "category", "imm", "material"];
 
 export const PartsList = () => {
-  const nav = useHistory();
+  const [listType, setListType] = useState<PartListTypes>("mold");
   const [searchInput, setSearchInput] = useState("");
   const [searchRegExp, setSearchRegExp] = useState(new RegExp(""));
 
@@ -47,35 +44,9 @@ export const PartsList = () => {
         />
       </InputGroup>
       <Box flex={1} overflowY="scroll">
-        <VStack my="20px">
-          {Object.keys(parts)
-            .sort((a, b) => parts[a].HIT - parts[b].HIT)
-            .map((part, index) => {
-              if (!searchRegExp.test(parts[part].desc)) {
-                return null;
-              }
-              return (
-                <Center
-                  key={index}
-                  h="60px"
-                  w="80%"
-                  bg="cyan.300"
-                  border="2px solid blue"
-                  p="20px"
-                  textAlign="center"
-                  fontSize="17px"
-                  fontFamily="Times new roman"
-                  borderRadius="10px"
-                  fontWeight="700"
-                  onClick={() => nav.push(`/part/${part}`)}
-                >
-                  {parts[part].desc}
-                </Center>
-              );
-            })}
-        </VStack>
+        <PartListDisplay variant={listType} search={searchRegExp} />
       </Box>
-      <Flex justify="space-evenly" py="2px" bg="cyan.400">
+      <Flex justify="space-evenly" py="2px" bg="cyan.200">
         {NavItems.map((item, index) => {
           return (
             <Button
@@ -83,9 +54,11 @@ export const PartsList = () => {
               _focus={{ boxShadow: "none" }}
               fontSize="14px"
               textTransform="capitalize"
+              colorScheme={item === listType ? "facebook" : "linkedin"}
               flex={1}
               mx="5px"
               key={index}
+              onClick={() => setListType(item)}
             >
               {item}
             </Button>
