@@ -41,7 +41,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
               isActive={false}
               _focus={{ boxShadow: "none" }}
               leftIcon={<Icon />}
-              fontSize="5vw"
+              fontSize="15px"
               textTransform="capitalize"
               colorScheme={navRoute === item ? "red" : "blue"}
               flex={1}

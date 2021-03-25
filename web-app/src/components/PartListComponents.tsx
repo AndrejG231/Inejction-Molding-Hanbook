@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Center, VStack } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
@@ -9,6 +9,7 @@ import {
   PartListProps,
   CategoryProps,
 } from "../types/partListTypes";
+import { booleanObject } from "../types/globalTypes";
 
 export const Part: FC<PartProps> = ({ part }) => {
   const nav = useHistory();
@@ -31,7 +32,7 @@ export const Part: FC<PartProps> = ({ part }) => {
   );
 };
 
-export const PartCategory: FC<CategoryProps> = ({ children }) => {
+export const PartCategory: FC<CategoryProps> = ({ children, onClick }) => {
   return (
     <Center
       h="60px"
@@ -44,6 +45,7 @@ export const PartCategory: FC<CategoryProps> = ({ children }) => {
       fontFamily="Times new roman"
       borderRadius="10px"
       fontWeight="700"
+      onClick={onClick}
     >
       {children}
     </Center>
@@ -51,6 +53,15 @@ export const PartCategory: FC<CategoryProps> = ({ children }) => {
 };
 
 export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
+  const [openedCategories, setOpenedCategories] = useState<booleanObject>({});
+
+  const handleCategoryOpen = (category: string) => () => {
+    setOpenedCategories({
+      ...openedCategories,
+      [category]: openedCategories[category] ? false : true,
+    });
+  };
+
   switch (variant) {
     case "category":
       return (
@@ -58,13 +69,17 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
           {Object.keys(categories).map((category, index) => {
             return (
               <VStack key={index} w="100%">
-                <PartCategory>{category}</PartCategory>
-                {categories[category].map((part, index) => {
-                  if (search && !search.test(parts[part].description)) {
-                    return null;
-                  }
-                  return <Part part={part} key={index} />;
-                })}
+                <PartCategory onClick={handleCategoryOpen(category)}>
+                  {category}
+                </PartCategory>
+                {openedCategories[category]
+                  ? categories[category].map((part, index) => {
+                      if (search && !search.test(parts[part].description)) {
+                        return null;
+                      }
+                      return <Part part={part} key={index} />;
+                    })
+                  : null}
               </VStack>
             );
           })}
@@ -77,13 +92,17 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
           {Object.keys(imms).map((imm, index) => {
             return (
               <VStack key={index} w="100%">
-                <PartCategory>{imm}</PartCategory>
-                {imms[imm].map((part, index) => {
-                  if (search && !search.test(parts[part.sap].description)) {
-                    return null;
-                  }
-                  return <Part part={part.sap} key={index} />;
-                })}
+                <PartCategory onClick={handleCategoryOpen(imm)}>
+                  {imm}
+                </PartCategory>
+                {openedCategories[imm]
+                  ? imms[imm].map((part, index) => {
+                      if (search && !search.test(parts[part].description)) {
+                        return null;
+                      }
+                      return <Part part={part} key={index} />;
+                    })
+                  : null}
               </VStack>
             );
           })}
@@ -95,13 +114,17 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
           {Object.keys(materials).map((material, index) => {
             return (
               <VStack key={index} w="100%">
-                <PartCategory>{materials[material].name}</PartCategory>
-                {materials[material].parts.map((part, index) => {
-                  if (search && !search.test(parts[part.sap].description)) {
-                    return null;
-                  }
-                  return <Part part={part.sap} key={index} />;
-                })}
+                <PartCategory onClick={handleCategoryOpen(material)}>
+                  {materials[material].name}
+                </PartCategory>
+                {openedCategories[material]
+                  ? materials[material].parts.map((part, index) => {
+                      if (search && !search.test(parts[part].description)) {
+                        return null;
+                      }
+                      return <Part part={part} key={index} />;
+                    })
+                  : null}
               </VStack>
             );
           })}

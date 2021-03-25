@@ -2,6 +2,8 @@ export type partsJsonTypes = {
   [key in string]: {
     moldNumber: number;
     description: string;
+    materials: { sap: string; portion: number; volume: number }[];
+    molds: { imm: string; cycleTime: number }[];
   };
 };
 
@@ -10,15 +12,12 @@ export type partsProjectTypes = {
 };
 
 export type partsMoldTypes = {
-  [key in string]: {
-    sap: string;
-    cycleTime: number;
-  }[];
+  [key in string]: string[];
 };
 
 export type partsMaterialTypes = {
   [key in string]: {
     name: string;
-    parts: { sap: string; portion: number; volume: number }[];
+    parts: string[];
   };
 };

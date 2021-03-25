@@ -1,3 +1,5 @@
+import { onClick } from "./globalTypes";
+
 export type PartListTypes = "mold" | "category" | "imm" | "material";
 
 export type PartProps = {
@@ -6,6 +8,7 @@ export type PartProps = {
 
 export type CategoryProps = {
   children: string;
+  onClick: onClick<HTMLDivElement>;
 };
 
 export type PartListProps = {
