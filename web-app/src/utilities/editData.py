@@ -1,12 +1,12 @@
 import json
 
-with open('./parts.json') as p:
+with open('../private/parts.json') as p:
     parts = json.load(p)
 
-with open('./materials.json') as p:
+with open('../private/materials.json') as p:
     materials = json.load(p)
 
-with open('./presses.json') as p:
+with open('../private/presses.json') as p:
     molds = json.load(p)
 
 # Edit
@@ -38,8 +38,8 @@ for part in parts.keys():
         molds[mld["imm"]].append(part)
 
 
-with open('./materials.json', 'w', encoding='utf-8') as f:
+with open('../private/materials.json', 'w', encoding='utf-8') as f:
     json.dump(materials, f, ensure_ascii=False, indent=4)
 
-with open('./presses.json', 'w', encoding='utf-8') as f:
+with open('../private/presses.json', 'w', encoding='utf-8') as f:
     json.dump(molds, f, ensure_ascii=False, indent=4)

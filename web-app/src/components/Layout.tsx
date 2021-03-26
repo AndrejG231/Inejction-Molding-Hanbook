@@ -3,7 +3,7 @@ import { BsListTask } from "react-icons/bs";
 import { FaSourcetree } from "react-icons/fa";
 import { BiMapAlt } from "react-icons/bi";
 import { LayoutProps } from "../types/layoutTypes";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Box, Button, Flex } from "@chakra-ui/react";
 
 //
@@ -14,12 +14,8 @@ const NavItems: { [key in string]: any } = {
 };
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
-  const [navRoute, setNavRoute] = React.useState("list");
   const nav = useHistory();
-
-  useEffect(() => {
-    nav.push(`/${navRoute}/`);
-  }, [navRoute, nav]);
+  const location = useLocation();
 
   return (
     <Flex maxH="100vh" h="100vh" bg="cyan.100" direction="column">
@@ -43,11 +39,11 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
               leftIcon={<Icon />}
               fontSize="15px"
               textTransform="capitalize"
-              colorScheme={navRoute === item ? "red" : "blue"}
+              colorScheme={location.pathname === `/${item}/` ? "red" : "blue"}
               flex={1}
               mx="8px"
               key={index}
-              onClick={() => setNavRoute(item)}
+              onClick={() => nav.push(`/${item}/`)}
             >
               {item}
             </Button>
