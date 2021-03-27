@@ -19,7 +19,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
 
   return (
     <Flex maxH="100vh" h="100vh" bg="cyan.100" direction="column">
-      <Box h="95%" maxH="93%">
+      <Box h="95%" overflowY="auto">
         {children}
       </Box>
       <Flex

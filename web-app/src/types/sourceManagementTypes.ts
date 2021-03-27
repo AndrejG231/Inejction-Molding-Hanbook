@@ -11,4 +11,5 @@ export type editFormProps = {
   setEditData: (editData: editStateType) => void;
   handleSubmit: onClick<HTMLButtonElement>;
   setMatSelect: () => void;
+  endEditMode: () => void;
 };

@@ -1,9 +1,10 @@
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import { Button, Flex, Text, VStack } from "@chakra-ui/react";
+import React, { FC, useEffect, useState } from "react";
 import {
   EditForm,
   MaterialSelect,
 } from "../components/SourceManagementComponents";
+import { materials } from "../private/data";
 import { editStateType } from "../types/sourceManagementTypes";
 import { parseMaterialCookies } from "../utilities/parseCookies";
 
@@ -20,15 +21,20 @@ export const SourceManagement: FC = () => {
   const [editValues, setEditValues] = useState<editStateType>(defaultEditState);
 
   const submitDataEdit = () => {
-    document.cookie = `@mat-${editValues.name}=${editValues.material}@info@${editValues.info}`;
+    document.cookie = `@mat-${editValues.name}=${editValues.material}@info@${editValues.info};expires=Fri, 31 Dec 9999 23:59:59 GMT";`;
     setEditMode(false);
-    setCookies(parseMaterialCookies());
   };
 
   const handleMaterialSelect = (material: string) => {
-    setEditValues({ ...editValues, material: `@m-${material}` });
+    setEditValues({ ...editValues, material: material });
     setMatSelMode(false);
   };
+
+  useEffect(() => {
+    if (!editMode) {
+      setCookies(parseMaterialCookies);
+    }
+  }, [setCookies, editMode]);
 
   if (matSelMode) {
     return <MaterialSelect selectHandler={handleMaterialSelect} />;
@@ -41,22 +47,55 @@ export const SourceManagement: FC = () => {
         setEditData={setEditValues}
         handleSubmit={() => submitDataEdit()}
         setMatSelect={() => setMatSelMode(true)}
+        endEditMode={() => {
+          setEditMode(false);
+        }}
       />
     );
   }
 
   return (
-    <div>
-      {cookies.map((cookie) => {
-        return (
-          <div>
-            {cookie.name},<br />
-            {cookie.material}, <br />
-            {cookie.info}
-          </div>
-        );
-      })}
+    <Flex alignItems="center" direction="column">
+      <VStack w="100%" align="center">
+        {cookies.map((cookie, index) => {
+          return (
+            <Flex
+              key={index}
+              mt="10px"
+              p="10px"
+              direction="column"
+              w="95%"
+              border="2px solid teal"
+              borderRadius="15px"
+              background="blue.200"
+              fontSize="24px"
+              fontWeight="600"
+              onClick={() => {
+                setEditMode(true);
+                setEditValues({
+                  name: cookie.name,
+                  material: cookie.material,
+                  info: cookie.info,
+                });
+              }}
+            >
+              <Flex justify="space-between" borderBottom="2px solid teal">
+                <Text textAlign="left">{cookie.name}</Text>
+                <Text textAlign="right">{cookie.info}</Text>
+              </Flex>
+              <Text textAlign="center" fontSize="16px">
+                {cookie.material.startsWith("@m-")
+                  ? materials[cookie.material.slice(3)].name
+                  : cookie.material}
+              </Text>
+            </Flex>
+          );
+        })}
+      </VStack>
       <Button
+        m="auto"
+        mt="10px"
+        w="80%"
         colorScheme="teal"
         onClick={() => {
           setEditMode(true);
@@ -65,6 +104,6 @@ export const SourceManagement: FC = () => {
       >
         Add
       </Button>
-    </div>
+    </Flex>
   );
 };
