@@ -1,7 +1,5 @@
 import { onClick } from "./globalTypes";
 
-export type PartListTypes = "mold" | "category" | "imm" | "material";
-
 export type PartProps = {
   part: string;
 };
@@ -12,6 +10,6 @@ export type CategoryProps = {
 };
 
 export type PartListProps = {
-  variant: "mold" | "category" | "imm" | "material";
+  variant: string;
   search?: RegExp;
 };

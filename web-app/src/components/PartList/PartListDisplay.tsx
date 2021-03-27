@@ -1,56 +1,10 @@
+import { VStack } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
-import { Center, VStack } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
-
-import { parts, materials, categories, imms } from "../private/data";
-
-import {
-  PartProps,
-  PartListProps,
-  CategoryProps,
-} from "../types/partListTypes";
-import { booleanObject } from "../types/globalTypes";
-
-export const Part: FC<PartProps> = ({ part }) => {
-  const nav = useHistory();
-  return (
-    <Center
-      h="60px"
-      w="80%"
-      bg="cyan.300"
-      border="2px solid blue"
-      p="20px"
-      textAlign="center"
-      fontSize="17px"
-      fontFamily="Times new roman"
-      borderRadius="10px"
-      fontWeight="700"
-      onClick={() => nav.push(`/part/${part}`)}
-    >
-      {parts[part].description}
-    </Center>
-  );
-};
-
-export const PartCategory: FC<CategoryProps> = ({ children, onClick }) => {
-  return (
-    <Center
-      h="60px"
-      w="90%"
-      bg="cyan.500"
-      border="2px solid blue"
-      p="20px"
-      textAlign="center"
-      fontSize="17px"
-      fontFamily="Times new roman"
-      borderRadius="10px"
-      fontWeight="700"
-      onClick={onClick}
-    >
-      {children}
-    </Center>
-  );
-};
+import { categories, imms, materials, parts } from "../../private/data";
+import { booleanObject } from "../../types/globalTypes";
+import { PartListProps } from "../../types/partListTypes";
+import { PartCategory } from "./Category";
+import { Part } from "./Part";
 
 export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   const [openedCategories, setOpenedCategories] = useState<booleanObject>({});

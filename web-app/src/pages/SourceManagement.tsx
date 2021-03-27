@@ -1,9 +1,7 @@
 import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
-import {
-  EditForm,
-  MaterialSelect,
-} from "../components/SourceManagementComponents";
+import { EditForm } from "../components/SourceManagement/EditForm";
+import { MaterialSelect } from "../components/SourceManagement/MaterialSelect";
 import { materials } from "../private/data";
 import { editStateType } from "../types/sourceManagementTypes";
 import { parseMaterialCookies } from "../utilities/parseCookies";

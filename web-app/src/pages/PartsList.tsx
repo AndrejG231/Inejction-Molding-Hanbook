@@ -8,14 +8,13 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import { PartListDisplay } from "../components/PartListComponents";
-import { PartListTypes } from "../types/partListTypes";
+import { PartListDisplay } from "../components/PartList/PartListDisplay";
+import { WithNavbar } from "../components/WithNavbar";
 
-
-const NavItems: PartListTypes[] = ["mold", "category", "imm", "material"];
+const NavItems = ["mold", "category", "imm", "material"];
 
 export const PartsList = () => {
-  const [listType, setListType] = useState<PartListTypes>("mold");
+  const [listType, setListType] = useState("mold");
   const [searchInput, setSearchInput] = useState("");
   const [searchRegExp, setSearchRegExp] = useState(new RegExp(""));
 
@@ -28,7 +27,11 @@ export const PartsList = () => {
   };
 
   return (
-    <Flex direction="column" h="100%" maxH="100%">
+    <WithNavbar
+      navItems={NavItems}
+      menuSelector={(item) => setListType(item)}
+      selectedItem={listType}
+    >
       <InputGroup colorScheme="blue">
         <InputLeftElement pointerEvents="none">
           <FaSearch />
@@ -46,25 +49,6 @@ export const PartsList = () => {
       <Box flex={1} overflowY="scroll">
         <PartListDisplay variant={listType} search={searchRegExp} />
       </Box>
-      <Flex justify="space-evenly" py="2px" bg="cyan.200">
-        {NavItems.map((item, index) => {
-          return (
-            <Button
-              isActive={false}
-              _focus={{ boxShadow: "none" }}
-              fontSize="14px"
-              textTransform="capitalize"
-              colorScheme={item === listType ? "facebook" : "linkedin"}
-              flex={1}
-              mx="5px"
-              key={index}
-              onClick={() => setListType(item)}
-            >
-              {item}
-            </Button>
-          );
-        })}
-      </Flex>
-    </Flex>
+    </WithNavbar>
   );
 };

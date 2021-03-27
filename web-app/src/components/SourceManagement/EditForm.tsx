@@ -1,16 +1,7 @@
+import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 import React, { FC } from "react";
-import {
-  Flex,
-  Input,
-  Button,
-  VStack,
-  Center,
-  Spacer,
-  Text,
-  Box,
-} from "@chakra-ui/react";
-import { editFormProps } from "../types/sourceManagementTypes";
-import { materials } from "../private/data";
+import { materials } from "../../private/data";
+import { editFormProps } from "../../types/sourceManagementTypes";
 
 export const EditForm: FC<editFormProps> = ({
   editData,
@@ -111,36 +102,5 @@ export const EditForm: FC<editFormProps> = ({
         Save
       </Button>
     </Flex>
-  );
-};
-
-export const MaterialSelect: FC<any> = ({ selectHandler }) => {
-  return (
-    <VStack my="10px">
-      {Object.keys(materials).map((material, index) => {
-        return (
-          <Button
-            w="90%"
-            h="70px"
-            fontSize="16px"
-            colorScheme="blue"
-            key={index}
-            onClick={() => selectHandler(`@m-${material}`)}
-          >
-            <Text textAlign="center" fontSize="20px" whiteSpace="break-spaces">
-              {materials[material].name}
-            </Text>
-          </Button>
-        );
-      })}
-      <Button
-        w="80%"
-        h="50px"
-        onClick={() => selectHandler("")}
-        colorScheme="red"
-      >
-        Cancel
-      </Button>
-    </VStack>
   );
 };
