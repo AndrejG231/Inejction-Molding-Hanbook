@@ -1,4 +1,4 @@
-import { Flex, Button } from "@chakra-ui/react";
+import { Flex, Button, Box } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { WithNavbarProps } from "../types/withNavbarTypes";
 

@@ -4,7 +4,7 @@ import { EditForm } from "../components/SourceManagement/EditForm";
 import { MaterialSelect } from "../components/SourceManagement/MaterialSelect";
 import { materials } from "../private/data";
 import { editStateType } from "../types/sourceManagementTypes";
-import { parseMaterialCookies } from "../utilities/parseCookies";
+import { parseMaterialCookies } from "../utilities/parseMaterialCookies";
 
 const defaultEditState = {
   name: "",
