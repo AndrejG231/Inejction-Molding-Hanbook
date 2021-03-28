@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlansEdit } from "../components/Plans/PlansEdit";
 import { PlanSetter } from "../components/Plans/PlanSetter";
 import { WithNavbar } from "../components/WithNavbar";
@@ -29,6 +29,10 @@ export const Plans = () => {
       setPlans([...plans, editValues]);
     }
   };
+
+  useEffect(() => {
+    document.cookie = `@plan=${JSON.stringify(plans)}`;
+  }, [plans]);
 
   if (editMode) {
     return (
