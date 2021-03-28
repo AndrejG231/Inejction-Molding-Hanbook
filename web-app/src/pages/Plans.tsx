@@ -1,27 +1,33 @@
-import { Box, Button, Center } from "@chakra-ui/react";
-import React, { FC, ReactChild, useState } from "react";
+import { Box } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { PlansEdit } from "../components/Plans/PlansEdit";
 import { PlanSetter } from "../components/Plans/PlanSetter";
 import { WithNavbar } from "../components/WithNavbar";
 import { getPlanFromCookie } from "../utilities/getPlanFromCooke";
+import { getTime } from "../utilities/getTime";
 
 const navItems = ["visual", "flow", "manage"];
 
 const defaultEditState = {
   mold: "",
-  time: -1,
-  nextForm: -1,
+  previous: "",
+  nextForm: "",
 };
 
 export const Plans = () => {
   const [navigation, setNavigation] = useState(navItems[0]);
   const [plans, setPlans] = useState(getPlanFromCookie());
   const [editMode, setEditMode] = useState(false);
-  const [editValues, setEditValues] = useState(defaultEditState);
+  const [editValues, setEditValues] = useState({
+    ...defaultEditState,
+    time: getTime(),
+  });
 
   const saveEdits = () => {
-    setPlans([...plans, editValues]);
-    setEditMode(false);
+    if (editValues.mold && editValues.nextForm) {
+      setEditValues({ ...defaultEditState, time: editValues.time + 30 });
+      setPlans([...plans, editValues]);
+    }
   };
 
   if (editMode) {
@@ -30,6 +36,7 @@ export const Plans = () => {
         setEditValues={setEditValues}
         values={editValues}
         saveEdits={saveEdits}
+        setEditMode={setEditMode}
       />
     );
   }
@@ -40,7 +47,7 @@ export const Plans = () => {
       selectedItem={navigation}
       menuSelector={(item) => setNavigation(item)}
     >
-      <Box overflowY="scroll" flex={1}>
+      <Box overflowY="auto" flex={1}>
         {navigation === "manage" ? (
           <PlanSetter
             plan={plans}

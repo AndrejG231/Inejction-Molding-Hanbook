@@ -1,11 +1,12 @@
 import { Flex, VStack, Button, Box } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { materials } from "../../private/data";
+import { numberObject } from "../../types/globalTypes";
 import { planSetterProps } from "../../types/plansTypes";
 import { PlanItem } from "./PlanItem";
 
 export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
-  const previous: any = {};
+  const previous: numberObject = {};
   return (
     <Flex alignItems="center" direction="column">
       <VStack w="100%" align="center"></VStack>

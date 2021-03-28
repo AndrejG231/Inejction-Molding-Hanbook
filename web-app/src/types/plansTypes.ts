@@ -2,7 +2,8 @@ export type switchT = { time: number; mold: string; nextForm: number };
 
 type editValues = {
   mold: string;
-  nextForm: number;
+  nextForm: string;
+  previous: string;
   time: number;
 };
 
@@ -15,5 +16,6 @@ export type planSetterProps = {
 export type plansEditProps = {
   values: editValues;
   setEditValues: (editValues: editValues) => void;
+  setEditMode: (mode: boolean) => void;
   saveEdits: () => void;
 };
