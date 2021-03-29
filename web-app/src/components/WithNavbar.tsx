@@ -1,5 +1,5 @@
-import { Flex, Button, Box } from "@chakra-ui/react";
 import React, { FC, ReactChild } from "react";
+import { Flex, Button } from "@chakra-ui/react";
 
 interface WithNavbarProps {
   children: ReactChild | ReactChild[];

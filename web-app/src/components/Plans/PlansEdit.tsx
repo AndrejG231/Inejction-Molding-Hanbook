@@ -1,24 +1,25 @@
+import React, { FC, useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+
 import {
   Box,
   Button,
-  Center,
   Flex,
   Heading,
   HStack,
   Input,
   VStack,
 } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+
 import { imms } from "../../private/data";
-import { editValuesT } from "../../redux/Plans/Reducer";
-import { ReduxStore, ReduxStoreT } from "../../redux/reduxStore";
-import { Dispatch } from "redux";
 import {
   saveEdits,
   setEditMode,
   setEditValues,
 } from "../../redux/Plans/Actions";
-import { connect } from "react-redux";
+import { editValuesT } from "../../redux/Plans/Reducer";
+import { ReduxStoreT } from "../../redux/reduxStore";
 
 const keys = [
   ["7", "8", "9"],
@@ -76,9 +77,10 @@ export const PlansEdit: FC<plansEditProps> = ({
     <Flex py="5px" h="100%" direction="column">
       <Flex h="100%">
         <VStack mx="5px" my="20px" spacing="auto">
-          {Object.keys(imms).map((imm) => {
+          {Object.keys(imms).map((imm, index) => {
             return (
               <Button
+                key={index}
                 colorScheme={values.mold === imm ? "red" : "linkedin"}
                 onClick={() => setEditValues({ ...values, mold: imm })}
                 fontSize="22px"
@@ -106,7 +108,7 @@ export const PlansEdit: FC<plansEditProps> = ({
                 value={`${Math.floor(values.time / 60)}:${
                   values.time % 60 >= 10
                     ? values.time % 60
-                    : "0" + `${values.time % 60}`
+                    : "0" + (values.time % 60)
                 }`}
                 textAlign="center"
                 onChange={(event) => null}

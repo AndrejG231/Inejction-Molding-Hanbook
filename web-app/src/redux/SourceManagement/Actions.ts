@@ -1,4 +1,4 @@
-import { editValuesT, src } from "./source";
+import { editValuesT, src } from "./Reducer";
 
 export const setEditMode = (value: boolean) => {
   return {

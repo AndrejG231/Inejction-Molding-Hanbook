@@ -1,9 +1,11 @@
-import { VStack } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
-import { categories, imms, materials, parts } from "../../private/data";
-import { booleanObject } from "../../types/globalTypes";
+import { VStack } from "@chakra-ui/react";
+
 import { PartCategory } from "./Category";
 import { Part } from "./Part";
+
+import { categories, imms, materials, parts } from "../../private/data";
+import { booleanObject } from "../../types/globalTypes";
 
 interface PartListProps {
   variant: string;

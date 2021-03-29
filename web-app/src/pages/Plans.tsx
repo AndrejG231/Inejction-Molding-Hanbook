@@ -1,14 +1,16 @@
-import { Box } from "@chakra-ui/react";
+import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import React, { FC, useEffect, useState } from "react";
+
+import { Box } from "@chakra-ui/react";
+
+import { WithNavbar } from "../components/WithNavbar";
 import PlansEdit from "../components/Plans/PlansEdit";
 import PlanSetter from "../components/Plans/PlanSetter";
-import { WithNavbar } from "../components/WithNavbar";
-import { ReduxStoreT } from "../redux/reduxStore";
-import { action } from "../types/globalTypes";
+
 import { editValuesT } from "../redux/Plans/Reducer";
 import { storeEdits } from "../redux/Plans/Actions";
+import { ReduxStoreT } from "../redux/reduxStore";
 
 const navItems = ["visual", "flow", "manage"];
 
@@ -34,7 +36,7 @@ const Plans: FC<PlansProps> = ({ editMode, plans, updateCookie }) => {
 
   useEffect(() => {
     updateCookie();
-  }, [plans]);
+  }, [plans, updateCookie]);
 
   if (editMode) {
     return <PlansEdit />;

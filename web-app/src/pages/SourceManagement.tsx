@@ -1,19 +1,21 @@
-import { Button, Flex, Text, VStack } from "@chakra-ui/react";
-import React, { FC, useEffect, useState } from "react";
-import EditForm from "../components/SourceManagement/EditForm";
-import MaterialSelect from "../components/SourceManagement/MaterialSelect";
-import { materials } from "../private/data";
+import React, { FC, useEffect } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { SourceManagementStateT } from "../redux/SourceManagement/Reducer";
-import { ReduxStoreT } from "../redux/reduxStore";
 
-//Actions:
+import { Button, Flex, Text, VStack } from "@chakra-ui/react";
+
+import EditForm from "../components/SourceManagement/EditForm";
+import MaterialSelect from "../components/SourceManagement/MaterialSelect";
+
+import { materials } from "../private/data";
+
 import {
   setEditMode,
   reloadCookies,
   setEditValues,
 } from "../redux/SourceManagement/Actions";
+import { SourceManagementStateT } from "../redux/SourceManagement/Reducer";
+import { ReduxStoreT } from "../redux/reduxStore";
 
 const defaultEditState = {
   name: "",
@@ -45,7 +47,7 @@ const SourceManagement: FC<SourceManagementProps> = ({ state, dispatch }) => {
     if (!editMode) {
       dispatch(reloadCookies());
     }
-  }, [editMode]);
+  }, [editMode, dispatch]);
 
   if (selectionMode) {
     return <MaterialSelect />;

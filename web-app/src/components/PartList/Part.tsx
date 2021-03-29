@@ -1,6 +1,6 @@
-import { Center } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
+import { Center } from "@chakra-ui/react";
 import { parts } from "../../private/data";
 
 interface PartProps {

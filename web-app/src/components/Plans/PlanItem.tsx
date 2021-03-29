@@ -1,8 +1,10 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
+
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
 import { FaCheckDouble } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
+
 import { editValuesT } from "../../redux/Plans/Reducer";
 
 interface PlanItemProps {

@@ -1,12 +1,15 @@
-import { Flex, VStack, Button, Box } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { ReduxStoreT } from "../../redux/reduxStore";
-import { numberObject } from "../../types/globalTypes";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import { Flex, Button } from "@chakra-ui/react";
+
 import { PlanItem } from "./PlanItem";
-import { setEditMode, setEditValues } from "../../redux/Plans/Actions";
+
+import { setEditMode } from "../../redux/Plans/Actions";
+
 import { editValuesT } from "../../redux/Plans/Reducer";
+import { ReduxStoreT } from "../../redux/reduxStore";
+import { numberObject } from "../../types/globalTypes";
 
 const StateToProps = (state: ReduxStoreT) => {
   return {

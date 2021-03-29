@@ -1,6 +1,13 @@
-import { editValuesT, src } from "./source";
 import { parseMaterialCookies } from "../../utilities/parseMaterialCookies";
+import { action } from "../../types/globalTypes";
 
+export const src = "source_management";
+
+export type editValuesT = {
+  name: string;
+  info: string;
+  material: string;
+};
 
 export type SourceManagementStateT = {
   editMode: boolean;
@@ -20,11 +27,6 @@ const SourceManagementState: SourceManagementStateT = {
   selectionMode: false,
   editValues: editValues,
   sources: parseMaterialCookies(),
-};
-
-type action = {
-  type: string;
-  data: any;
 };
 
 type Reducer = {

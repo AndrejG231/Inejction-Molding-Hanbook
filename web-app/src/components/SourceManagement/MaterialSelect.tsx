@@ -1,8 +1,10 @@
 import React, { FC } from "react";
-import { Button, VStack, Text } from "@chakra-ui/react";
-import { materials } from "../../private/data";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { Button, VStack, Text } from "@chakra-ui/react";
+
+import { materials } from "../../private/data";
+
 import {
   setEditValue,
   setMatSelMode,

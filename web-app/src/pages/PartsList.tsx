@@ -1,15 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
+
+import { Box, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
-import {
-  Flex,
-  Button,
-  Box,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
-import { PartListDisplay } from "../components/PartList/PartListDisplay";
+
 import { WithNavbar } from "../components/WithNavbar";
+import { PartListDisplay } from "../components/PartList/PartListDisplay";
 
 const NavItems = ["mold", "category", "imm", "material"];
 

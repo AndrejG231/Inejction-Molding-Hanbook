@@ -1,12 +1,13 @@
-import React, { FC, ReactChild, useEffect } from "react";
+import React, { FC, ReactChild } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { BsListTask } from "react-icons/bs";
 import { FaSourcetree } from "react-icons/fa";
 import { BiMapAlt } from "react-icons/bi";
-import { useHistory, useLocation } from "react-router-dom";
-import { Box, Button, Flex } from "@chakra-ui/react";
+
 import { IconType } from "react-icons/lib";
 
-//
 const NavItems: { [key in string]: IconType } = {
   list: BsListTask,
   source: FaSourcetree,

@@ -1,16 +1,17 @@
-import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
-import { materials } from "../../private/data";
-import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { ReduxStoreT } from "../../redux/reduxStore";
+import { connect } from "react-redux";
+import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 
-// Actions
+import { materials } from "../../private/data";
+
 import {
   setEditMode,
   setEditValue,
   setMatSelMode,
 } from "../../redux/SourceManagement/Actions";
+
+import { ReduxStoreT } from "../../redux/reduxStore";
 import { SourceManagementStateT } from "../../redux/SourceManagement/Reducer";
 
 const StateToProps = (state: ReduxStoreT) => {
