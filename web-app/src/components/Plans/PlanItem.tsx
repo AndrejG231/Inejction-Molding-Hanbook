@@ -3,8 +3,14 @@ import React, { FC, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { FaCheckDouble } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
+import { editValuesT } from "../../redux/Plans/Reducer";
 
-export const PlanItem: FC<any> = ({ swtch, previousForm }) => {
+interface PlanItemProps {
+  swtch: editValuesT;
+  previousForm: number;
+}
+
+export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
   const [isChecked, setIsChecked] = useState(false);
   const hours = Math.floor((swtch.time % (24 * 60)) / 60);
   const minutes = swtch.time % 60;

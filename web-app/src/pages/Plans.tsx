@@ -1,48 +1,43 @@
 import { Box } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { PlansEdit } from "../components/Plans/PlansEdit";
-import { PlanSetter } from "../components/Plans/PlanSetter";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import React, { FC, useEffect, useState } from "react";
+import PlansEdit from "../components/Plans/PlansEdit";
+import PlanSetter from "../components/Plans/PlanSetter";
 import { WithNavbar } from "../components/WithNavbar";
-import { getPlanFromCookie } from "../utilities/getPlanFromCooke";
-import { getTime } from "../utilities/getTime";
+import { ReduxStoreT } from "../redux/reduxStore";
+import { action } from "../types/globalTypes";
+import { editValuesT } from "../redux/Plans/Reducer";
+import { storeEdits } from "../redux/Plans/Actions";
 
 const navItems = ["visual", "flow", "manage"];
 
-const defaultEditState = {
-  mold: "",
-  previous: "",
-  nextForm: "",
+const StateToProps = (state: ReduxStoreT) => {
+  return {
+    editMode: state.plans.editMode,
+    plans: state.plans.plans,
+  };
 };
 
-export const Plans = () => {
-  const [navigation, setNavigation] = useState(navItems[0]);
-  const [plans, setPlans] = useState(getPlanFromCookie());
-  const [editMode, setEditMode] = useState(false);
-  const [editValues, setEditValues] = useState({
-    ...defaultEditState,
-    time: getTime(),
-  });
+const DispatchToProps = (dispatch: Dispatch) => {
+  return { updateCookie: () => dispatch(storeEdits()) };
+};
 
-  const saveEdits = () => {
-    if (editValues.mold && editValues.nextForm) {
-      setEditValues({ ...defaultEditState, time: editValues.time + 30 });
-      setPlans([...plans, editValues]);
-    }
-  };
+interface PlansProps {
+  editMode: boolean;
+  plans: editValuesT[];
+  updateCookie: () => void;
+}
+
+const Plans: FC<PlansProps> = ({ editMode, plans, updateCookie }) => {
+  const [navigation, setNavigation] = useState(navItems[0]);
 
   useEffect(() => {
-    document.cookie = `@plan=${JSON.stringify(plans)}`;
+    updateCookie();
   }, [plans]);
 
   if (editMode) {
-    return (
-      <PlansEdit
-        setEditValues={setEditValues}
-        values={editValues}
-        saveEdits={saveEdits}
-        setEditMode={setEditMode}
-      />
-    );
+    return <PlansEdit />;
   }
 
   return (
@@ -52,16 +47,10 @@ export const Plans = () => {
       menuSelector={(item) => setNavigation(item)}
     >
       <Box overflowY="auto" flex={1}>
-        {navigation === "manage" ? (
-          <PlanSetter
-            plan={plans}
-            setEditValues={setEditValues}
-            enterEditMode={() => {
-              setEditMode(true);
-            }}
-          />
-        ) : null}
+        {navigation === "manage" ? <PlanSetter /> : null}
       </Box>
     </WithNavbar>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(Plans);

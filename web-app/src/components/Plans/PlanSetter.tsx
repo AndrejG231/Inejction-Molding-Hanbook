@@ -1,21 +1,31 @@
 import { Flex, VStack, Button, Box } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { materials } from "../../private/data";
+import { ReduxStoreT } from "../../redux/reduxStore";
 import { numberObject } from "../../types/globalTypes";
-import { switchT, editValues } from "../../types/plansTypes";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 import { PlanItem } from "./PlanItem";
+import { setEditMode, setEditValues } from "../../redux/Plans/Actions";
+import { editValuesT } from "../../redux/Plans/Reducer";
+
+const StateToProps = (state: ReduxStoreT) => {
+  return {
+    plan: state.plans.plans,
+  };
+};
+
+const DispatchToProps = (dispatch: Dispatch) => {
+  return {
+    enterEditMode: () => dispatch(setEditMode(true)),
+  };
+};
 
 interface planSetterProps {
-  plan: switchT[];
+  plan: editValuesT[];
   enterEditMode: () => void;
-  setEditValues: (editValues: editValues) => void;
 }
 
-export const PlanSetter: FC<planSetterProps> = ({
-  plan,
-  enterEditMode,
-  setEditValues,
-}) => {
+export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
   const previous: numberObject = {};
   return (
     <Flex alignItems="center" direction="column" pb="15px">
@@ -38,3 +48,5 @@ export const PlanSetter: FC<planSetterProps> = ({
     </Flex>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(PlanSetter);

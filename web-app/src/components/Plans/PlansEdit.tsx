@@ -10,7 +10,15 @@ import {
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { imms } from "../../private/data";
-import { editValues } from "../../types/plansTypes";
+import { editValuesT } from "../../redux/Plans/Reducer";
+import { ReduxStore, ReduxStoreT } from "../../redux/reduxStore";
+import { Dispatch } from "redux";
+import {
+  saveEdits,
+  setEditMode,
+  setEditValues,
+} from "../../redux/Plans/Actions";
+import { connect } from "react-redux";
 
 const keys = [
   ["7", "8", "9"],
@@ -19,9 +27,24 @@ const keys = [
   ["C", "0", "<"],
 ];
 
+const StateToProps = (state: ReduxStoreT) => {
+  return {
+    values: state.plans.editValues,
+  };
+};
+
+const DispatchToProps = (dispatch: Dispatch) => {
+  return {
+    setEditValues: (editValues: editValuesT) =>
+      dispatch(setEditValues(editValues)),
+    setEditMode: (mode: boolean) => dispatch(setEditMode(mode)),
+    saveEdits: () => dispatch(saveEdits()),
+  };
+};
+
 interface plansEditProps {
-  values: editValues;
-  setEditValues: (editValues: editValues) => void;
+  values: editValuesT;
+  setEditValues: (editValues: editValuesT) => void;
   setEditMode: (mode: boolean) => void;
   saveEdits: () => void;
 }
@@ -167,3 +190,5 @@ export const PlansEdit: FC<plansEditProps> = ({
     </Flex>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(PlansEdit);
