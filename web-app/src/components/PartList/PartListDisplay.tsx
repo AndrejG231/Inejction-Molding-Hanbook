@@ -2,9 +2,13 @@ import { VStack } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { categories, imms, materials, parts } from "../../private/data";
 import { booleanObject } from "../../types/globalTypes";
-import { PartListProps } from "../../types/partListTypes";
 import { PartCategory } from "./Category";
 import { Part } from "./Part";
+
+interface PartListProps {
+  variant: string;
+  search?: RegExp;
+}
 
 export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   const [openedCategories, setOpenedCategories] = useState<booleanObject>({});

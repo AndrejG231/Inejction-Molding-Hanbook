@@ -2,14 +2,23 @@ import { Flex, VStack, Button, Box } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { materials } from "../../private/data";
 import { numberObject } from "../../types/globalTypes";
-import { planSetterProps } from "../../types/plansTypes";
+import { switchT, editValues } from "../../types/plansTypes";
 import { PlanItem } from "./PlanItem";
 
-export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
+interface planSetterProps {
+  plan: switchT[];
+  enterEditMode: () => void;
+  setEditValues: (editValues: editValues) => void;
+}
+
+export const PlanSetter: FC<planSetterProps> = ({
+  plan,
+  enterEditMode,
+  setEditValues,
+}) => {
   const previous: numberObject = {};
   return (
-    <Flex alignItems="center" direction="column">
-      <VStack w="100%" align="center"></VStack>
+    <Flex alignItems="center" direction="column" pb="15px">
       {plan
         .sort((a, b) => a.time - b.time)
         .map((swtch, index) => {

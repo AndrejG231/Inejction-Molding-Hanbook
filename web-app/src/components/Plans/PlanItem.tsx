@@ -1,10 +1,13 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { FaCheckDouble } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
 
 export const PlanItem: FC<any> = ({ swtch, previousForm }) => {
+  const [isChecked, setIsChecked] = useState(false);
+  const hours = Math.floor((swtch.time % (24 * 60)) / 60);
+  const minutes = swtch.time % 60;
   return (
     <Flex
       m="auto"
@@ -23,7 +26,7 @@ export const PlanItem: FC<any> = ({ swtch, previousForm }) => {
       <Button
         h="100%"
         w="60px"
-        colorScheme="linkedin"
+        colorScheme={isChecked ? "red" : "linkedin"}
         borderLeftRadius="14px"
         clipPath="polygon(0 0, 100% 0, 50% 100%, 0% 100%)"
         pl="10px"
@@ -34,8 +37,8 @@ export const PlanItem: FC<any> = ({ swtch, previousForm }) => {
       </Button>
       <Flex color="white" fontSize="32px" fontWeight="700" direction="column">
         <Text mb="5px">
-          {Math.floor(swtch.time / 60)}:
-          {swtch.time % 60 > 10 ? swtch.time % 60 : "00"}
+          {hours > 10 ? hours : "0" + hours}:
+          {minutes > 10 ? minutes : "0" + minutes}
         </Text>
         <Text
           borderTop="2px solid teal"
@@ -51,7 +54,7 @@ export const PlanItem: FC<any> = ({ swtch, previousForm }) => {
         h="100%"
         width="5px"
         clipPath="polygon(50% 0, 100% 0, 50% 100%, 0% 100%)"
-        colorScheme="linkedin"
+        colorScheme={isChecked ? "red" : "linkedin"}
         borderRadius="0"
       />
       <Flex
@@ -89,12 +92,13 @@ export const PlanItem: FC<any> = ({ swtch, previousForm }) => {
       <Button
         h="100%"
         w="60px"
-        colorScheme="linkedin"
+        colorScheme={isChecked ? "red" : "linkedin"}
         borderRightRadius="14px"
         clipPath="polygon(50% 0, 100% 0, 100% 100%, 0% 100%);"
         pt="10px"
         pl="20px"
         fontSize="25px"
+        onClick={() => setIsChecked(!isChecked)}
       >
         <FaCheckDouble />
       </Button>

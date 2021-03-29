@@ -9,8 +9,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
-import { plansEditProps } from "../../types/plansTypes";
 import { imms } from "../../private/data";
+import { editValues } from "../../types/plansTypes";
 
 const keys = [
   ["7", "8", "9"],
@@ -18,6 +18,13 @@ const keys = [
   ["1", "2", "3"],
   ["C", "0", "<"],
 ];
+
+interface plansEditProps {
+  values: editValues;
+  setEditValues: (editValues: editValues) => void;
+  setEditMode: (mode: boolean) => void;
+  saveEdits: () => void;
+}
 
 export const PlansEdit: FC<plansEditProps> = ({
   values,

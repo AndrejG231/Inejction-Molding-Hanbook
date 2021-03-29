@@ -1,7 +1,16 @@
 import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { materials } from "../../private/data";
-import { editFormProps } from "../../types/sourceManagementTypes";
+import { onClick } from "../../types/globalTypes";
+import { editStateType } from "../../types/sourceManagementTypes";
+
+interface editFormProps {
+  editData: editStateType;
+  setEditData: (editData: editStateType) => void;
+  handleSubmit: onClick<HTMLButtonElement>;
+  setMatSelect: () => void;
+  endEditMode: () => void;
+};
 
 export const EditForm: FC<editFormProps> = ({
   editData,

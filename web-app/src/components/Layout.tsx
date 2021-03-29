@@ -1,17 +1,21 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, ReactChild, useEffect } from "react";
 import { BsListTask } from "react-icons/bs";
 import { FaSourcetree } from "react-icons/fa";
 import { BiMapAlt } from "react-icons/bi";
-import { LayoutProps } from "../types/layoutTypes";
 import { useHistory, useLocation } from "react-router-dom";
 import { Box, Button, Flex } from "@chakra-ui/react";
+import { IconType } from "react-icons/lib";
 
 //
-const NavItems: { [key in string]: any } = {
+const NavItems: { [key in string]: IconType } = {
   list: BsListTask,
   source: FaSourcetree,
   plans: BiMapAlt,
 };
+
+interface LayoutProps {
+  children: ReactChild | ReactChild[];
+}
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
   const nav = useHistory();

@@ -1,7 +1,10 @@
 import React, { FC } from "react";
 import { Button, VStack, Text } from "@chakra-ui/react";
 import { materials } from "../../private/data";
-import { materialSelectProps } from "../../types/sourceManagementTypes";
+
+interface materialSelectProps {
+  selectHandler: (item: string) => void;
+}
 
 export const MaterialSelect: FC<materialSelectProps> = ({ selectHandler }) => {
   return (

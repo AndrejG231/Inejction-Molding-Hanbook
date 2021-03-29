@@ -1,6 +1,12 @@
 import { Flex, Button, Box } from "@chakra-ui/react";
-import React, { FC } from "react";
-import { WithNavbarProps } from "../types/withNavbarTypes";
+import React, { FC, ReactChild } from "react";
+
+interface WithNavbarProps {
+  children: ReactChild | ReactChild[];
+  navItems: string[];
+  menuSelector?: (item: string) => void;
+  selectedItem?: string;
+}
 
 export const WithNavbar: FC<WithNavbarProps> = ({
   children,

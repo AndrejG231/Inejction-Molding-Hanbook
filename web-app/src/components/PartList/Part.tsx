@@ -1,8 +1,11 @@
-import { Center } from '@chakra-ui/react';
-import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
-import { parts } from '../../private/data';
-import { PartProps } from '../../types/partListTypes';
+import { Center } from "@chakra-ui/react";
+import React, { FC } from "react";
+import { useHistory } from "react-router-dom";
+import { parts } from "../../private/data";
+
+interface PartProps {
+  part: string;
+}
 
 export const Part: FC<PartProps> = ({ part }) => {
   const nav = useHistory();

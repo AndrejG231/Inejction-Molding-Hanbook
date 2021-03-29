@@ -3,11 +3,10 @@ import { TiArrowBack } from "react-icons/ti";
 import { useHistory, useParams } from "react-router-dom";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { parts, imms, materials } from "../private/data";
-import { RouterPartParams } from "../types/partViewTypes";
 
 export const PartView = () => {
   const nav = useHistory();
-  const { partSap }: RouterPartParams = useParams();
+  const { partSap } = useParams() as { partSap: string };
   return (
     <Flex
       direction="column"

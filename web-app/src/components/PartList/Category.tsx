@@ -1,6 +1,11 @@
 import { Center } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { CategoryProps } from "../../types/partListTypes";
+import { onClick } from "../../types/globalTypes";
+
+interface CategoryProps {
+  children: string;
+  onClick: onClick<HTMLDivElement>;
+}
 
 export const PartCategory: FC<CategoryProps> = ({ children, onClick }) => {
   return (
