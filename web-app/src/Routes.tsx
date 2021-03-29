@@ -5,7 +5,7 @@ import { Layout } from "./components/Layout";
 import { PartsList } from "./pages/PartsList";
 import { PartView } from "./pages/PartView";
 import { Plans } from "./pages/Plans";
-import { SourceManagement } from "./pages/SourceManagement";
+import SourceManagement from "./pages/SourceManagement";
 
 const Routes = () => {
   const nav = useHistory();

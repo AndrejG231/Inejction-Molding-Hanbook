@@ -1,10 +1,19 @@
 import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
-import { EditForm } from "../components/SourceManagement/EditForm";
-import { MaterialSelect } from "../components/SourceManagement/MaterialSelect";
+import EditForm from "../components/SourceManagement/EditForm";
+import MaterialSelect from "../components/SourceManagement/MaterialSelect";
 import { materials } from "../private/data";
-import { editStateType } from "../types/sourceManagementTypes";
-import { parseMaterialCookies } from "../utilities/parseMaterialCookies";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { SourceManagementStateT } from "../redux/SourceManagement/Reducer";
+import { ReduxStoreT } from "../redux/reduxStore";
+
+//Actions:
+import {
+  setEditMode,
+  reloadCookies,
+  setEditValues,
+} from "../redux/SourceManagement/Actions";
 
 const defaultEditState = {
   name: "",
@@ -12,50 +21,44 @@ const defaultEditState = {
   info: "",
 };
 
-export const SourceManagement: FC = () => {
-  const [cookies, setCookies] = useState(parseMaterialCookies());
-  const [editMode, setEditMode] = useState(false);
-  const [matSelMode, setMatSelMode] = useState(false);
-  const [editValues, setEditValues] = useState<editStateType>(defaultEditState);
-
-  const submitDataEdit = () => {
-    document.cookie = `@mat-${editValues.name}=${editValues.material}@info@${editValues.info};expires=Fri, 31 Dec 9999 23:59:59 GMT";`;
-    setEditMode(false);
+const StateToProps = (state: ReduxStoreT) => {
+  return {
+    state: state.sourceManagement,
   };
+};
 
-  const handleMaterialSelect = (material: string) => {
-    setEditValues({ ...editValues, material: material });
-    setMatSelMode(false);
+const DispatchToProps = (dispatch: Dispatch) => {
+  return {
+    dispatch: dispatch,
   };
+};
+
+interface SourceManagementProps {
+  state: SourceManagementStateT;
+  dispatch: (action: any) => void;
+}
+
+const SourceManagement: FC<SourceManagementProps> = ({ state, dispatch }) => {
+  const { editMode, selectionMode, sources } = state;
 
   useEffect(() => {
     if (!editMode) {
-      setCookies(parseMaterialCookies);
+      dispatch(reloadCookies());
     }
-  }, [setCookies, editMode]);
+  }, [editMode]);
 
-  if (matSelMode) {
-    return <MaterialSelect selectHandler={handleMaterialSelect} />;
+  if (selectionMode) {
+    return <MaterialSelect />;
   }
 
   if (editMode) {
-    return (
-      <EditForm
-        editData={editValues}
-        setEditData={setEditValues}
-        handleSubmit={() => submitDataEdit()}
-        setMatSelect={() => setMatSelMode(true)}
-        endEditMode={() => {
-          setEditMode(false);
-        }}
-      />
-    );
+    return <EditForm />;
   }
 
   return (
     <Flex alignItems="center" direction="column">
       <VStack w="100%" align="center">
-        {cookies.map((cookie, index) => {
+        {sources.map((cookie, index) => {
           return (
             <Flex
               key={index}
@@ -69,12 +72,14 @@ export const SourceManagement: FC = () => {
               fontSize="24px"
               fontWeight="600"
               onClick={() => {
-                setEditMode(true);
-                setEditValues({
-                  name: cookie.name,
-                  material: cookie.material,
-                  info: cookie.info,
-                });
+                dispatch(setEditMode(true));
+                dispatch(
+                  setEditValues({
+                    name: cookie.name,
+                    material: cookie.material,
+                    info: cookie.info,
+                  })
+                );
               }}
             >
               <Flex justify="space-between" borderBottom="2px solid teal">
@@ -96,7 +101,7 @@ export const SourceManagement: FC = () => {
         w="80%"
         colorScheme="teal"
         onClick={() => {
-          setEditMode(true);
+          dispatch(setEditMode(true));
           setEditValues(defaultEditState);
         }}
       >
@@ -105,3 +110,5 @@ export const SourceManagement: FC = () => {
     </Flex>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(SourceManagement);

@@ -1,12 +1,32 @@
 import React, { FC } from "react";
 import { Button, VStack, Text } from "@chakra-ui/react";
 import { materials } from "../../private/data";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import {
+  setEditValue,
+  setMatSelMode,
+} from "../../redux/SourceManagement/Actions";
+
+const StateToProps = () => {
+  return {};
+};
+const DispatchToProps = (dispatch: Dispatch) => {
+  return {
+    selectHandler: (item: string) => dispatch(setEditValue("material", item)),
+    quitSelection: () => dispatch(setMatSelMode(false)),
+  };
+};
 
 interface materialSelectProps {
   selectHandler: (item: string) => void;
+  quitSelection: () => void;
 }
 
-export const MaterialSelect: FC<materialSelectProps> = ({ selectHandler }) => {
+const MaterialSelect: FC<materialSelectProps> = ({
+  selectHandler,
+  quitSelection,
+}) => {
   return (
     <VStack my="10px">
       {Object.keys(materials).map((material, index) => {
@@ -17,7 +37,10 @@ export const MaterialSelect: FC<materialSelectProps> = ({ selectHandler }) => {
             fontSize="16px"
             colorScheme="blue"
             key={index}
-            onClick={() => selectHandler(`@m-${material}`)}
+            onClick={() => {
+              selectHandler(`@m-${material}`);
+              quitSelection();
+            }}
           >
             <Text textAlign="center" fontSize="20px" whiteSpace="break-spaces">
               {materials[material].name}
@@ -28,7 +51,7 @@ export const MaterialSelect: FC<materialSelectProps> = ({ selectHandler }) => {
       <Button
         w="80%"
         h="50px"
-        onClick={() => selectHandler("")}
+        onClick={() => quitSelection()}
         colorScheme="red"
       >
         Cancel
@@ -36,3 +59,5 @@ export const MaterialSelect: FC<materialSelectProps> = ({ selectHandler }) => {
     </VStack>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(MaterialSelect);

@@ -1,24 +1,37 @@
 import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { materials } from "../../private/data";
-import { onClick } from "../../types/globalTypes";
-import { editStateType } from "../../types/sourceManagementTypes";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ReduxStoreT } from "../../redux/reduxStore";
 
-interface editFormProps {
-  editData: editStateType;
-  setEditData: (editData: editStateType) => void;
-  handleSubmit: onClick<HTMLButtonElement>;
-  setMatSelect: () => void;
-  endEditMode: () => void;
+// Actions
+import {
+  setEditMode,
+  setEditValue,
+  setMatSelMode,
+} from "../../redux/SourceManagement/Actions";
+import { SourceManagementStateT } from "../../redux/SourceManagement/Reducer";
+
+const StateToProps = (state: ReduxStoreT) => {
+  return {
+    editData: state.sourceManagement.editValues,
+  };
 };
 
-export const EditForm: FC<editFormProps> = ({
-  editData,
-  setEditData,
-  handleSubmit,
-  setMatSelect,
-  endEditMode,
-}) => {
+const DispatchToProps = (dispatch: Dispatch) => {
+  return {
+    dispatch: dispatch,
+  };
+};
+
+interface editFormProps {
+  editData: SourceManagementStateT["editValues"];
+  dispatch: Dispatch;
+}
+
+const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
+  const [oldName] = useState(editData.name);
   return (
     <Flex direction="column" m="10px" align="center" h="90%">
       <Input
@@ -30,9 +43,7 @@ export const EditForm: FC<editFormProps> = ({
         bg="white"
         placeholder="Name"
         value={editData.name}
-        onChange={(event) =>
-          setEditData({ ...editData, name: event.target.value })
-        }
+        onChange={(event) => dispatch(setEditValue("name", event.target.value))}
       />
       <Input
         fontSize="22px"
@@ -49,7 +60,7 @@ export const EditForm: FC<editFormProps> = ({
             : editData.material
         }
         onChange={(event) =>
-          setEditData({ ...editData, material: event.target.value })
+          dispatch(setEditValue("material", event.target.value))
         }
       />
       <Button
@@ -60,7 +71,7 @@ export const EditForm: FC<editFormProps> = ({
         mr="10px"
         ml="auto"
         colorScheme="teal"
-        onClick={setMatSelect}
+        onClick={() => dispatch(setMatSelMode(true))}
       >
         Select
       </Button>
@@ -73,9 +84,7 @@ export const EditForm: FC<editFormProps> = ({
         bg="white"
         placeholder="Info"
         value={editData.info}
-        onChange={(event) =>
-          setEditData({ ...editData, info: event.target.value })
-        }
+        onChange={(event) => dispatch(setEditValue("info", event.target.value))}
       />
       <Button
         h="50px"
@@ -84,8 +93,8 @@ export const EditForm: FC<editFormProps> = ({
         fontSize="22px"
         colorScheme="red"
         onClick={() => {
-          endEditMode();
-          document.cookie = `@mat-${editData.name}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+          dispatch(setEditMode(false));
         }}
       >
         Remove
@@ -97,7 +106,7 @@ export const EditForm: FC<editFormProps> = ({
         w="80%"
         fontSize="22px"
         colorScheme="yellow"
-        onClick={endEditMode}
+        onClick={() => dispatch(setEditMode(false))}
       >
         Cancel
       </Button>
@@ -106,10 +115,16 @@ export const EditForm: FC<editFormProps> = ({
         h="50px"
         w="80%"
         colorScheme="green"
-        onClick={handleSubmit}
+        onClick={() => {
+          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+          document.cookie = `@mat-${editData.name}=${editData.material}@info@${editData.info};expires=Thu, 01 Jan 2970 00:00:00 UTC;`;
+          dispatch(setEditMode(false));
+        }}
       >
         Save
       </Button>
     </Flex>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(EditForm);
