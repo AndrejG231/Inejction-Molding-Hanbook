@@ -32,13 +32,11 @@ export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
   const previous: numberObject = {};
   return (
     <Flex alignItems="center" direction="column" pb="15px">
-      {plan
-        .sort((a, b) => a.time - b.time)
-        .map((swtch, index) => {
-          const last = previous[swtch.mold];
-          previous[swtch.mold] = swtch.nextForm;
-          return <PlanItem key={index} swtch={swtch} previousForm={last} />;
-        })}
+      {plan.map((swtch, index) => {
+        const last = previous[swtch.mold];
+        previous[swtch.mold] = swtch.nextForm;
+        return <PlanItem key={index} swtch={swtch} previousForm={last} />;
+      })}
       <Button
         m="auto"
         mt="10px"

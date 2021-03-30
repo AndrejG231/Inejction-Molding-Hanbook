@@ -8,12 +8,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { ReduxStore } from "./redux/reduxStore";
 
 ReactDOM.render(
-  <Provider store={ReduxStore}>
-    <ChakraProvider>
-      <BrowserRouter>
+  <ChakraProvider>
+    <BrowserRouter>
+      <Provider store={ReduxStore}>
         <Routes />
-      </BrowserRouter>
-    </ChakraProvider>
-  </Provider>,
+      </Provider>
+    </BrowserRouter>
+  </ChakraProvider>,
   document.getElementById("root")
 );

@@ -11,6 +11,7 @@ import PlanSetter from "../components/Plans/PlanSetter";
 import { editValuesT } from "../redux/Plans/Reducer";
 import { storeEdits } from "../redux/Plans/Actions";
 import { ReduxStoreT } from "../redux/reduxStore";
+import Visual from "../components/Plans/Visual";
 
 const navItems = ["visual", "flow", "manage"];
 
@@ -34,10 +35,6 @@ interface PlansProps {
 const Plans: FC<PlansProps> = ({ editMode, plans, updateCookie }) => {
   const [navigation, setNavigation] = useState(navItems[0]);
 
-  useEffect(() => {
-    updateCookie();
-  }, [plans, updateCookie]);
-
   if (editMode) {
     return <PlansEdit />;
   }
@@ -50,6 +47,7 @@ const Plans: FC<PlansProps> = ({ editMode, plans, updateCookie }) => {
     >
       <Box overflowY="auto" flex={1}>
         {navigation === "manage" ? <PlanSetter /> : null}
+        {navigation === "visual" ? <Visual /> : null}
       </Box>
     </WithNavbar>
   );

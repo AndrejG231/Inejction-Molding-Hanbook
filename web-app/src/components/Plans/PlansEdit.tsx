@@ -111,7 +111,7 @@ export const PlansEdit: FC<plansEditProps> = ({
                     : "0" + (values.time % 60)
                 }`}
                 textAlign="center"
-                onChange={(event) => null}
+                onChange={() => null}
               />
               <Button
                 onClick={() =>

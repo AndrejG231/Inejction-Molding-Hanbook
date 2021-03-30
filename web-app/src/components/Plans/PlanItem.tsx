@@ -45,8 +45,8 @@ export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
       </Button>
       <Flex color="white" fontSize="32px" fontWeight="700" direction="column">
         <Text mb="5px">
-          {hours > 10 ? hours : "0" + hours}:
-          {minutes > 10 ? minutes : "0" + minutes}
+          {hours >= 10 ? hours : "0" + hours}:
+          {minutes >= 10 ? minutes : "0" + minutes}
         </Text>
         <Text
           borderTop="2px solid teal"

@@ -57,15 +57,19 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
         editValues: action.data,
       };
     case `${src}/saveEdits`:
-      return {
-        ...state,
-        editValues: { ...getEditValues(), time: state.editValues.time + 30 },
-        plans: [...state.plans, state.editValues],
-      };
-    case `${src}/storeEdits`:
-      document.cookie = `@plan=${JSON.stringify(
-        state.plans
-      )};expires=Thu, 01 Jan 2970 00:00:00 UTC;`;
+      if (state.editValues.nextForm && state.editValues.mold) {
+        const plans = [...state.plans, state.editValues].sort(
+          (a, b) => a.time - b.time
+        );
+        document.cookie = `@plan=${JSON.stringify(
+          plans
+        )};path=/;expires=Thu, 01 Jan 2970 00:00:00 UTC`;
+        return {
+          ...state,
+          editValues: { ...getEditValues(), time: state.editValues.time + 30 },
+          plans: plans,
+        };
+      }
       return state;
     default:
       return state;
