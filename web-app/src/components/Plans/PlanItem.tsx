@@ -1,20 +1,50 @@
 import React, { FC, useState } from "react";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
-import { FaCheckDouble } from "react-icons/fa";
+import { FaCheckDouble, FaTimes } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
 
 import { editValuesT } from "../../redux/Plans/Reducer";
-import { valueScaleCorrection } from "framer-motion/types/render/dom/projection/scale-correction";
+import {
+  loadEditValues,
+  setChecked,
+  setEditIndex,
+  setEditMode,
+} from "../../redux/Plans/Actions";
+
+const StateToProps = () => {
+  return {};
+};
+
+const DispatchToProps = (dispatch: Dispatch) => {
+  return {
+    setChecked: (index: number) => dispatch(setChecked(index)),
+    editPlan: (index: number) => {
+      dispatch(setEditIndex(index));
+      dispatch(loadEditValues(index));
+      dispatch(setEditMode(true));
+    },
+  };
+};
 
 interface PlanItemProps {
   swtch: editValuesT;
   previousForm: number;
+  index: number;
+  setChecked: (index: number) => void;
+  editPlan: (index: number) => void;
 }
 
-export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
-  const [isChecked, setIsChecked] = useState(false);
+const PlanItem: FC<PlanItemProps> = ({
+  swtch,
+  previousForm,
+  index,
+  setChecked,
+  editPlan,
+}) => {
   return (
     <Flex
       m="auto"
@@ -33,12 +63,13 @@ export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
       <Button
         h="100%"
         w="60px"
-        colorScheme={isChecked ? "red" : "linkedin"}
+        colorScheme={swtch.checked ? "red" : "linkedin"}
         borderLeftRadius="14px"
         clipPath="polygon(0 0, 100% 0, 50% 100%, 0% 100%)"
         pl="10px"
         pb="20px"
         fontSize="25px"
+        onClick={() => editPlan(index)}
       >
         <AiFillEdit />
       </Button>
@@ -60,7 +91,7 @@ export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
         h="100%"
         width="5px"
         clipPath="polygon(50% 0, 100% 0, 50% 100%, 0% 100%)"
-        colorScheme={isChecked ? "red" : "linkedin"}
+        colorScheme={swtch.checked ? "red" : "linkedin"}
         borderRadius="0"
       />
       <Flex
@@ -98,16 +129,18 @@ export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
       <Button
         h="100%"
         w="60px"
-        colorScheme={isChecked ? "red" : "linkedin"}
+        colorScheme={swtch.checked ? "red" : "linkedin"}
         borderRightRadius="14px"
         clipPath="polygon(50% 0, 100% 0, 100% 100%, 0% 100%);"
         pt="10px"
         pl="20px"
         fontSize="25px"
-        onClick={() => setIsChecked(!isChecked)}
+        onClick={() => setChecked(index)}
       >
-        <FaCheckDouble />
+        {swtch.checked ? <FaTimes /> : <FaCheckDouble />}
       </Button>
     </Flex>
   );
 };
+
+export default connect(StateToProps, DispatchToProps)(PlanItem);

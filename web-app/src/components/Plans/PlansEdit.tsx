@@ -14,6 +14,7 @@ import {
 
 import { imms } from "../../private/data";
 import {
+  deleteSwitch,
   saveEdits,
   setEditMode,
   setEditValues,
@@ -40,6 +41,7 @@ const DispatchToProps = (dispatch: Dispatch) => {
       dispatch(setEditValues(editValues)),
     setEditMode: (mode: boolean) => dispatch(setEditMode(mode)),
     saveEdits: () => dispatch(saveEdits()),
+    removeSwitch: () => dispatch(deleteSwitch()),
   };
 };
 
@@ -48,6 +50,7 @@ interface plansEditProps {
   setEditValues: (editValues: editValuesT) => void;
   setEditMode: (mode: boolean) => void;
   saveEdits: () => void;
+  removeSwitch: () => void;
 }
 
 export const PlansEdit: FC<plansEditProps> = ({
@@ -55,6 +58,7 @@ export const PlansEdit: FC<plansEditProps> = ({
   setEditValues,
   setEditMode,
   saveEdits,
+  removeSwitch,
 }) => {
   const [selected, setSelected] = useState<"nextForm" | "previous">("nextForm");
   const handleClick = (number: string) => {
@@ -155,7 +159,7 @@ export const PlansEdit: FC<plansEditProps> = ({
             <Flex direction="column" p="5px">
               {keys.map((row, i) => {
                 return (
-                  <Flex w="100%">
+                  <Flex w="100%" key={i}>
                     {row.map((number, index) => {
                       return (
                         <Button
@@ -177,15 +181,33 @@ export const PlansEdit: FC<plansEditProps> = ({
         </Flex>
       </Flex>
       <VStack spacing="5px" justify="stretch" align="stretch" p="10px">
-        <Button colorScheme="red" onClick={() => setEditMode(false)}>
-          Cancel
-        </Button>
+        <Flex w="100%" justify="stretch">
+          <Button
+            flex={1}
+            colorScheme="red"
+            onClick={() => {
+              removeSwitch();
+              setEditMode(false);
+            }}
+          >
+            Remove
+          </Button>
+          <Box w="5px" />
+          <Button
+            flex={1}
+            colorScheme="orange"
+            onClick={() => setEditMode(false)}
+          >
+            Cancel
+          </Button>
+        </Flex>
         <Button colorScheme="yellow" onClick={() => saveEdits()}>
           Save & Next
         </Button>
         <Button
           colorScheme="green"
           onClick={() => {
+            console.log("SAVING");
             saveEdits();
             setEditMode(false);
           }}

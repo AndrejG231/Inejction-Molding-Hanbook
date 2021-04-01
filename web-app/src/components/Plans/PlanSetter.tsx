@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Flex, Button } from "@chakra-ui/react";
 
-import { PlanItem } from "./PlanItem";
+import PlanItem from "./PlanItem";
 
 import { setEditMode } from "../../redux/Plans/Actions";
 
@@ -35,7 +35,14 @@ export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
       {plan.map((swtch, index) => {
         const last = previous[swtch.mold];
         previous[swtch.mold] = swtch.nextForm;
-        return <PlanItem key={index} swtch={swtch} previousForm={last} />;
+        return (
+          <PlanItem
+            index={index}
+            key={index}
+            swtch={swtch}
+            previousForm={last}
+          />
+        );
       })}
       <Button
         m="auto"

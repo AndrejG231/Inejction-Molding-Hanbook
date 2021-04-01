@@ -24,6 +24,13 @@ export const setEditValues = (values: editValuesT) => {
   };
 };
 
+export const setEditIndex = (index: number) => {
+  return {
+    type: `${src}/setEditIndex`,
+    data: index,
+  };
+};
+
 export const saveEdits = () => {
   return {
     type: `${src}/saveEdits`,
@@ -32,4 +39,16 @@ export const saveEdits = () => {
 
 export const storeEdits = () => {
   return { type: `${src}/storeEdits` };
+};
+
+export const setChecked = (index: number) => {
+  return { type: `${src}/setChecked`, data: index };
+};
+
+export const loadEditValues = (index: number) => {
+  return { type: `${src}/loadEditValues`, data: index };
+};
+
+export const deleteSwitch = () => {
+  return { type: `${src}/delete` };
 };

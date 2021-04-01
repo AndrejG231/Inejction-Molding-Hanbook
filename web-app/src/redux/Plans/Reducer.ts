@@ -9,6 +9,7 @@ export type editValuesT = {
   previous: string;
   nextForm: string;
   time: number;
+  checked: boolean;
 };
 
 const getEditValues: { (): editValuesT } = () => {
@@ -16,6 +17,7 @@ const getEditValues: { (): editValuesT } = () => {
     mold: "",
     previous: "",
     nextForm: "",
+    checked: false,
     time: getEditTime(),
   };
 };
@@ -24,10 +26,12 @@ const plansState = {
   plans: getPlanFromCookie(),
   editMode: false,
   editValues: getEditValues(),
+  editIndex: -1,
 };
 
 export type PlansReducerState = {
   editValues: editValuesT;
+  editIndex: number;
   plans: editValuesT[];
   editMode: boolean;
 };
@@ -56,11 +60,21 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
         ...state,
         editValues: action.data,
       };
+    case `${src}/setEditIndex`:
+      return { ...state, editIndex: action.data };
     case `${src}/saveEdits`:
+      console.log("SAVE EDITS");
       if (state.editValues.nextForm && state.editValues.mold) {
         const plans = [...state.plans, state.editValues].sort(
           (a, b) => a.time - b.time
         );
+
+        if (state.editIndex >= 0) {
+          console.log("Removing");
+          plans.splice(state.editIndex, 1);
+        }
+
+        console.log("New plans", plans);
         document.cookie = `@plan=${JSON.stringify(
           plans
         )};path=/;expires=Thu, 01 Jan 2970 00:00:00 UTC`;
@@ -71,9 +85,27 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
             time: state.editValues.time + 30 * 60 * 1000,
           },
           plans: plans,
+          editIndex: -1,
         };
       }
       return state;
+    case `${src}/delete`:
+      if (state.editIndex >= 0) {
+        const plans = [...state.plans];
+        plans.splice(state.editIndex, 1);
+        return { ...state, plans: plans, editIndex: -1 };
+      }
+      return state;
+    case `${src}/setChecked`:
+      const plans = [...state.plans];
+      plans[action.data] = {
+        ...plans[action.data],
+        checked: !plans[action.data].checked,
+      };
+
+      return { ...state, plans: plans };
+    case `${src}/loadEditValues`:
+      return { ...state, editValues: state.plans[action.data] };
     default:
       return state;
   }
