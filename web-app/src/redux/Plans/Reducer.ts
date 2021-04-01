@@ -1,5 +1,5 @@
 import { getPlanFromCookie } from "../../utilities/getPlanFromCooke";
-import { getTime } from "../../utilities/getTime";
+import { getEditTime } from "../../utilities/getTime";
 import { action } from "../../types/globalTypes";
 
 export const src = "plans";
@@ -16,7 +16,7 @@ const getEditValues: { (): editValuesT } = () => {
     mold: "",
     previous: "",
     nextForm: "",
-    time: getTime(),
+    time: getEditTime(),
   };
 };
 
@@ -66,7 +66,10 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
         )};path=/;expires=Thu, 01 Jan 2970 00:00:00 UTC`;
         return {
           ...state,
-          editValues: { ...getEditValues(), time: state.editValues.time + 30 },
+          editValues: {
+            ...getEditValues(),
+            time: state.editValues.time + 30 * 60 * 1000,
+          },
           plans: plans,
         };
       }

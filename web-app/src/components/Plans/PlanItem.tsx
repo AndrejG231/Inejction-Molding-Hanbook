@@ -6,6 +6,7 @@ import { FaCheckDouble } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
 
 import { editValuesT } from "../../redux/Plans/Reducer";
+import { valueScaleCorrection } from "framer-motion/types/render/dom/projection/scale-correction";
 
 interface PlanItemProps {
   swtch: editValuesT;
@@ -14,8 +15,6 @@ interface PlanItemProps {
 
 export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const hours = Math.floor((swtch.time % (24 * 60)) / 60);
-  const minutes = swtch.time % 60;
   return (
     <Flex
       m="auto"
@@ -45,8 +44,7 @@ export const PlanItem: FC<PlanItemProps> = ({ swtch, previousForm }) => {
       </Button>
       <Flex color="white" fontSize="32px" fontWeight="700" direction="column">
         <Text mb="5px">
-          {hours >= 10 ? hours : "0" + hours}:
-          {minutes >= 10 ? minutes : "0" + minutes}
+          {new Date(swtch.time).toLocaleTimeString().slice(0, 5)}
         </Text>
         <Text
           borderTop="2px solid teal"

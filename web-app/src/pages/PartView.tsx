@@ -17,7 +17,6 @@ export const PartView = () => {
       py="15px"
       h="100%"
     >
-      <Button onClick={() => console.log(document.cookie)}>Cookie</Button>
       <Heading size="lg" textAlign="center">
         {parts[partSap].description}
       </Heading>

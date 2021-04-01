@@ -98,24 +98,28 @@ export const PlansEdit: FC<plansEditProps> = ({
             <HStack p="7px" borderRadius="10px" h="50px" bg="teal" w="100%">
               <Button
                 onClick={() =>
-                  setEditValues({ ...values, time: values.time - 30 })
+                  setEditValues({
+                    ...values,
+                    time: values.time - 30 * 60 * 1000,
+                  })
                 }
               >
                 -30
               </Button>
               <Input
                 bg="white"
-                value={`${Math.floor(values.time / 60)}:${
-                  values.time % 60 >= 10
-                    ? values.time % 60
-                    : "0" + (values.time % 60)
-                }`}
+                value={`${new Date(values.time)
+                  .toLocaleTimeString()
+                  .slice(0, 5)}`}
                 textAlign="center"
                 onChange={() => null}
               />
               <Button
                 onClick={() =>
-                  setEditValues({ ...values, time: values.time + 30 })
+                  setEditValues({
+                    ...values,
+                    time: values.time + 30 * 60 * 1000,
+                  })
                 }
               >
                 +30
