@@ -63,7 +63,6 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
     case `${src}/setEditIndex`:
       return { ...state, editIndex: action.data };
     case `${src}/saveEdits`:
-      console.log("SAVE EDITS");
       if (state.editValues.nextForm && state.editValues.mold) {
         const plans = [...state.plans, state.editValues].sort(
           (a, b) => a.time - b.time
@@ -106,6 +105,8 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
       return { ...state, plans: plans };
     case `${src}/loadEditValues`:
       return { ...state, editValues: state.plans[action.data] };
+    case `${src}/clearPlans`:
+      return { ...plansState, plans: [] };
     default:
       return state;
   }

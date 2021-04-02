@@ -52,3 +52,7 @@ export const loadEditValues = (index: number) => {
 export const deleteSwitch = () => {
   return { type: `${src}/delete` };
 };
+
+export const clearPlans = () => {
+  return { type: `${src}/clearPlans` };
+};

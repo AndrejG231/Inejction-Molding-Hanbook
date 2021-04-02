@@ -5,7 +5,7 @@ import { Flex, Button } from "@chakra-ui/react";
 
 import PlanItem from "./PlanItem";
 
-import { setEditMode } from "../../redux/Plans/Actions";
+import { clearPlans, setEditMode } from "../../redux/Plans/Actions";
 
 import { editValuesT } from "../../redux/Plans/Reducer";
 import { ReduxStoreT } from "../../redux/reduxStore";
@@ -20,15 +20,21 @@ const StateToProps = (state: ReduxStoreT) => {
 const DispatchToProps = (dispatch: Dispatch) => {
   return {
     enterEditMode: () => dispatch(setEditMode(true)),
+    clearPlans: () => dispatch(clearPlans()),
   };
 };
 
 interface planSetterProps {
   plan: editValuesT[];
   enterEditMode: () => void;
+  clearPlans: () => void;
 }
 
-export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
+export const PlanSetter: FC<planSetterProps> = ({
+  plan,
+  enterEditMode,
+  clearPlans,
+}) => {
   const previous: numberObject = {};
   return (
     <Flex alignItems="center" direction="column" pb="15px">
@@ -52,6 +58,9 @@ export const PlanSetter: FC<planSetterProps> = ({ plan, enterEditMode }) => {
         onClick={enterEditMode}
       >
         Add
+      </Button>
+      <Button m="auto" mt="10px" w="80%" colorScheme="red" onClick={clearPlans}>
+        Clear
       </Button>
     </Flex>
   );
