@@ -26,7 +26,7 @@ const colors = ["LawnGreen", "aqua", "DarkOrchid", "Gold", "Chartreuse", "Red"];
 
 const Visual: FC<VisualProps> = ({ plans }) => {
   const { min } = getMaxMin(plans, "time");
-  const [immPlans] = useState(plansToImms(plans));
+  const immPlans = plansToImms(plans);
   const startTime = min - (min % (8 * 60 * 60 * 1000)) + 4 * 60 * 60 * 1000;
   const endTime = startTime + 8 * 60 * 60 * 1000;
   return (

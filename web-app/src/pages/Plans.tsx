@@ -12,6 +12,7 @@ import { editValuesT } from "../redux/Plans/Reducer";
 import { storeEdits } from "../redux/Plans/Actions";
 import { ReduxStoreT } from "../redux/reduxStore";
 import Visual from "../components/Plans/Visual";
+import MaterialFlow from "../components/Plans/MaterialFlow";
 
 const navItems = ["visual", "flow", "manage"];
 
@@ -48,6 +49,7 @@ const Plans: FC<PlansProps> = ({ editMode, plans, updateCookie }) => {
       <Box overflowY="auto" flex={1}>
         {navigation === "manage" ? <PlanSetter /> : null}
         {navigation === "visual" ? <Visual /> : null}
+        {navigation === "flow" ? <MaterialFlow /> : null}
       </Box>
     </WithNavbar>
   );
