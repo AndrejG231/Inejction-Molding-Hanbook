@@ -90,7 +90,7 @@ const SourceManagement: FC<SourceManagementProps> = ({ state, dispatch }) => {
               </Flex>
               <Text textAlign="center" fontSize="16px">
                 {cookie.material.startsWith("@m-")
-                  ? materials[cookie.material.slice(3)].name
+                  ? materials[cookie.material.slice(3)]
                   : cookie.material}
               </Text>
             </Flex>

@@ -12,7 +12,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { imms } from "../../private/data";
 import {
   deleteSwitch,
   saveEdits,
@@ -52,6 +51,8 @@ interface plansEditProps {
   saveEdits: () => void;
   removeSwitch: () => void;
 }
+
+const imms = ["IMM01", "IMM02"];
 
 export const PlansEdit: FC<plansEditProps> = ({
   values,

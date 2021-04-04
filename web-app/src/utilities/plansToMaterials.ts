@@ -4,6 +4,8 @@ import { switchPerMolds } from "../types/globalTypes";
 export const plansToImms = (plan: editValuesT[]) => {
   const materials: { [key in string]: any } = {};
   plan.forEach((swtch) => {
-    if(!materials)
+    if (!materials) {
+      return;
+    }
   });
 };

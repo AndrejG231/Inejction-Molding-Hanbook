@@ -48,7 +48,7 @@ export const PartView = () => {
             direction="column"
           >
             <Heading size="sm" m="auto" textAlign="center">
-              {materials[material.sap].name}
+              {materials[material.sap]}
             </Heading>
             <Flex
               p="5px"

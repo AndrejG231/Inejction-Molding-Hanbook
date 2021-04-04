@@ -45,7 +45,7 @@ const MaterialSelect: FC<materialSelectProps> = ({
             }}
           >
             <Text textAlign="center" fontSize="20px" whiteSpace="break-spaces">
-              {materials[material].name}
+              {materials[material]}
             </Text>
           </Button>
         );

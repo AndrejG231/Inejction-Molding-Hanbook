@@ -1,5 +1,5 @@
 import { getPlanFromCookie } from "../../utilities/getPlanFromCooke";
-import { getEditTime } from "../../utilities/getTime";
+import { getRoundedTime } from "../../utilities/getRoundedTime";
 import { action } from "../../types/globalTypes";
 
 export const src = "plans";
@@ -18,7 +18,7 @@ const getEditValues: { (): editValuesT } = () => {
     previous: "",
     nextForm: "",
     checked: false,
-    time: getEditTime(),
+    time: getRoundedTime(),
   };
 };
 

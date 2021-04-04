@@ -4,8 +4,9 @@ import { VStack } from "@chakra-ui/react";
 import { PartCategory } from "./Category";
 import { Part } from "./Part";
 
-import { categories, imms, materials, parts } from "../../private/data";
+import { materials as materialsNames, parts } from "../../private/data";
 import { booleanObject } from "../../types/globalTypes";
+import { partsToCategories } from "../../utilities/partsToCategories";
 
 interface PartListProps {
   variant: string;
@@ -14,6 +15,7 @@ interface PartListProps {
 
 export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   const [openedCategories, setOpenedCategories] = useState<booleanObject>({});
+  const { materials, imms, projects } = partsToCategories(parts);
 
   const handleCategoryOpen = (category: string) => () => {
     setOpenedCategories({
@@ -26,14 +28,14 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
     case "category":
       return (
         <VStack my="20px">
-          {Object.keys(categories).map((category, index) => {
+          {Object.keys(projects).map((category, index) => {
             return (
               <VStack key={index} w="100%">
                 <PartCategory onClick={handleCategoryOpen(category)}>
                   {category}
                 </PartCategory>
                 {openedCategories[category]
-                  ? categories[category].map((part, index) => {
+                  ? projects[category].map((part, index) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
                       }
@@ -75,10 +77,10 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
             return (
               <VStack key={index} w="100%">
                 <PartCategory onClick={handleCategoryOpen(material)}>
-                  {materials[material].name}
+                  {materialsNames[material]}
                 </PartCategory>
                 {openedCategories[material]
-                  ? materials[material].parts.map((part, index) => {
+                  ? materials[material].map((part, index) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
                       }

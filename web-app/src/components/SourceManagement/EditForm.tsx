@@ -57,7 +57,7 @@ const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
         placeholder="Material"
         value={
           editData.material.startsWith("@m-")
-            ? materials[editData.material.slice(3)].name.slice(0, 15) + "..."
+            ? materials[editData.material.slice(3)].slice(0, 15) + "..."
             : editData.material
         }
         onChange={(event) =>
