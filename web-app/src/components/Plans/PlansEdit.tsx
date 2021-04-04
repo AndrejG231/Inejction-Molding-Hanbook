@@ -21,6 +21,8 @@ import {
 import { editValuesT } from "../../redux/Plans/Reducer";
 import { ReduxStoreT } from "../../redux/reduxStore";
 
+import { imms } from "../../private/data";
+
 const keys = [
   ["7", "8", "9"],
   ["4", "5", "6"],
@@ -52,8 +54,6 @@ interface plansEditProps {
   removeSwitch: () => void;
 }
 
-const imms = ["IMM01", "IMM02"];
-
 export const PlansEdit: FC<plansEditProps> = ({
   values,
   setEditValues,
@@ -82,7 +82,7 @@ export const PlansEdit: FC<plansEditProps> = ({
     <Flex py="5px" h="100%" direction="column">
       <Flex h="100%">
         <VStack mx="5px" my="20px" spacing="auto">
-          {Object.keys(imms).map((imm, index) => {
+          {imms.map((imm, index) => {
             return (
               <Button
                 key={index}
@@ -208,7 +208,6 @@ export const PlansEdit: FC<plansEditProps> = ({
         <Button
           colorScheme="green"
           onClick={() => {
-            console.log("SAVING");
             saveEdits();
             setEditMode(false);
           }}

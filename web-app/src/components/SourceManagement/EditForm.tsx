@@ -13,6 +13,7 @@ import {
 
 import { ReduxStoreT } from "../../redux/reduxStore";
 import { SourceManagementStateT } from "../../redux/SourceManagement/Reducer";
+import { createCookie, clearCookie } from "../../utilities/manageCookie";
 
 const StateToProps = (state: ReduxStoreT) => {
   return {
@@ -94,7 +95,7 @@ const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
         fontSize="22px"
         colorScheme="red"
         onClick={() => {
-          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+          clearCookie(`@mat-${oldName}`);
           dispatch(setEditMode(false));
         }}
       >
@@ -117,8 +118,11 @@ const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
         w="80%"
         colorScheme="green"
         onClick={() => {
-          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
-          document.cookie = `@mat-${editData.name}=${editData.material}@info@${editData.info};expires=Thu, 01 Jan 2970 00:00:00 UTC;path=/`;
+          clearCookie(`@mat-${oldName}`);
+          createCookie(
+            `@mat-${editData.name}`,
+            `${editData.material}@info@${editData.info}`
+          );
           dispatch(setEditMode(false));
         }}
       >

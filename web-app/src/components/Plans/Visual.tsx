@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { ReduxStoreT } from "../../redux/reduxStore";
 import { getMaxMin } from "../../utilities/getMaxMin";
 import { editValuesT } from "../../redux/Plans/Reducer";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 import { plansToImms } from "../../utilities/planToImms";
 import { switchPerMolds } from "../../types/globalTypes";
 

@@ -1,6 +1,8 @@
+import { action } from "../../types/globalTypes";
+
 import { getPlanFromCookie } from "../../utilities/getPlanFromCooke";
 import { getRoundedTime } from "../../utilities/getRoundedTime";
-import { action } from "../../types/globalTypes";
+import { createCookie } from "../../utilities/manageCookie";
 
 export const src = "plans";
 
@@ -69,14 +71,10 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
         );
 
         if (state.editIndex >= 0) {
-          console.log("Removing");
           plans.splice(state.editIndex, 1);
         }
 
-        console.log("New plans", plans);
-        document.cookie = `@plan=${JSON.stringify(
-          plans
-        )};path=/;expires=Thu, 01 Jan 2970 00:00:00 UTC`;
+        createCookie("@plan", `${JSON.stringify(plans)}`);
         return {
           ...state,
           editValues: {

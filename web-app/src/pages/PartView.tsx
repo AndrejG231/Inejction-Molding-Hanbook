@@ -12,8 +12,6 @@ export const PartView = () => {
   const nav = useHistory();
   const { partSap } = useParams() as { partSap: string };
   const materialSources = toMaterialSources(parseMaterialCookies());
-  console.log(materialSources);
-  console.log(parts[partSap]);
   return (
     <Flex
       direction="column"
@@ -82,12 +80,11 @@ export const PartView = () => {
                 w="90%"
                 borderTop="2px solid teal"
                 m="auto"
-                fontSize="18px"
+                fontSize="22px"
+                justify="space-between"
               >
-                <Text mr="auto">
-                  {material.volume}%<br />
-                  {material.portion}g
-                </Text>
+                <Text>{material.volume}%</Text>
+                <Text>{material.portion}g</Text>
               </Flex>
             )}
           </Flex>
