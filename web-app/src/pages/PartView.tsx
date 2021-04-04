@@ -5,10 +5,15 @@ import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { TiArrowBack } from "react-icons/ti";
 
 import { parts, materials } from "../private/data";
+import { parseMaterialCookies } from "../utilities/parseMaterialCookies";
+import { toMaterialSources } from "../utilities/toMaterialSources";
 
 export const PartView = () => {
   const nav = useHistory();
   const { partSap } = useParams() as { partSap: string };
+  const materialSources = toMaterialSources(parseMaterialCookies());
+  console.log(materialSources);
+  console.log(parts[partSap]);
   return (
     <Flex
       direction="column"
@@ -50,26 +55,41 @@ export const PartView = () => {
             <Heading size="sm" m="auto" textAlign="center">
               {materials[material.sap]}
             </Heading>
-            <Flex
-              p="5px"
-              w="90%"
-              borderTop="2px solid teal"
-              m="auto"
-              fontSize="18px"
-            >
-              <Text mr="auto">
-                {material.volume}%<br />
-                {material.portion}g
-              </Text>
-              <Text>
-                |<br />|
-              </Text>
-              <Text ml="auto" textAlign="right">
-                Batch src
-                <br />
-                Batch number
-              </Text>
-            </Flex>
+            {materialSources[material.sap] ? (
+              <Flex
+                p="5px"
+                w="90%"
+                borderTop="2px solid teal"
+                m="auto"
+                fontSize="18px"
+              >
+                <Text mr="auto">
+                  {material.volume}%<br />
+                  {material.portion}g
+                </Text>
+                <Text>
+                  |<br />|
+                </Text>
+                <Text ml="auto" textAlign="right">
+                  {materialSources[material.sap].name}
+                  <br />
+                  {materialSources[material.sap].info}
+                </Text>
+              </Flex>
+            ) : (
+              <Flex
+                p="5px"
+                w="90%"
+                borderTop="2px solid teal"
+                m="auto"
+                fontSize="18px"
+              >
+                <Text mr="auto">
+                  {material.volume}%<br />
+                  {material.portion}g
+                </Text>
+              </Flex>
+            )}
           </Flex>
         );
       })}

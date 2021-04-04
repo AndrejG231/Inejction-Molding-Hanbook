@@ -94,7 +94,7 @@ const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
         fontSize="22px"
         colorScheme="red"
         onClick={() => {
-          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
           dispatch(setEditMode(false));
         }}
       >
@@ -117,8 +117,8 @@ const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
         w="80%"
         colorScheme="green"
         onClick={() => {
-          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
-          document.cookie = `@mat-${editData.name}=${editData.material}@info@${editData.info};expires=Thu, 01 Jan 2970 00:00:00 UTC;`;
+          document.cookie = `@mat-${oldName}=none;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+          document.cookie = `@mat-${editData.name}=${editData.material}@info@${editData.info};expires=Thu, 01 Jan 2970 00:00:00 UTC;path=/`;
           dispatch(setEditMode(false));
         }}
       >
