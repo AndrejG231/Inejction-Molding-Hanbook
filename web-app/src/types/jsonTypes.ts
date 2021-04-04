@@ -1,6 +1,6 @@
 export type partsJsonTypes = {
   [key in string]: {
-    moldNumber: number;
+    sap: string;
     description: string;
     materials: { sap: string; portion: number; volume: number }[];
     molds: { imm: string; cycleTime: number }[];

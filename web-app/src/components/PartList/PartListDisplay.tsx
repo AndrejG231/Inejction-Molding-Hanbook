@@ -96,7 +96,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
       return (
         <VStack my="20px">
           {Object.keys(parts)
-            .sort((a, b) => parts[a].moldNumber - parts[b].moldNumber)
+            .sort((a, b) => ~~a - ~~b)
             .map((part, index) => {
               if (search && !search.test(parts[part].description)) {
                 return null;
