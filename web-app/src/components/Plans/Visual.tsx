@@ -7,6 +7,7 @@ import { editValuesT } from "../../redux/Plans/Reducer";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { plansToImms } from "../../utilities/planToImms";
 import { switchPerMolds } from "../../types/globalTypes";
+import { getShift } from "../../utilities/getShift";
 
 const StateToProps = (state: ReduxStoreT) => {
   return {
@@ -27,21 +28,8 @@ const colors = ["LawnGreen", "aqua", "DarkOrchid", "Gold", "Chartreuse", "Red"];
 const Visual: FC<VisualProps> = ({ plans }) => {
   const { min } = getMaxMin(plans, "time");
   const immPlans = plansToImms(plans);
-  const time = new Date(min);
-  let startTime = min;
 
-  for (const t of [6, 14, 22]) {
-    time.setHours(t);
-    if (time.getTime() <= min) {
-      startTime = time.getTime();
-    } else {
-      console.log(time.getTime(), "is not bigger than", min);
-    }
-
-    console.log(new Date(startTime).toLocaleTimeString());
-  }
-
-  const endTime = startTime + 7.5 * 60 * 60 * 1000;
+  const { startTime, endTime } = getShift(min);
   return (
     <Flex h="100%" w={`${Object.keys(immPlans).length * 75}px`}>
       {Object.keys(immPlans)
