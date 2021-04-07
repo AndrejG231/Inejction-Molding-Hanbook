@@ -90,6 +90,8 @@ export const PlansReducer: Reducer = (state = plansState, action: action) => {
       if (state.editIndex >= 0) {
         const plans = [...state.plans];
         plans.splice(state.editIndex, 1);
+
+        createCookie("@plan", `${JSON.stringify(plans)}`);
         return { ...state, plans: plans, editIndex: -1 };
       }
       return state;
