@@ -79,7 +79,7 @@ export const PlansEdit: FC<plansEditProps> = ({
     return setEditValues({ ...values, [selected]: values[selected] + number });
   };
   return (
-    <Flex py="5px" h="100%" direction="column">
+    <Flex py="5px" h="100%" direction={{ sm: "column", lg: "row" }}>
       <Flex h="100%">
         <VStack mx="5px" my="20px" spacing="auto">
           {imms.map((imm, index) => {

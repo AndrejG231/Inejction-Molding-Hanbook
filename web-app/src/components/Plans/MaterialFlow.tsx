@@ -30,7 +30,7 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
   return (
     <Flex
       h="100%"
-      w={`${Object.keys(materialPlan).length * 105}px`}
+      w={`${Object.keys(materialPlan).length * 125}px`}
       justify="space-evenly"
     >
       {Object.keys(materialPlan).map((mat, index) => {
@@ -38,7 +38,7 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
           <Flex
             key={index}
             h="98%"
-            w="100px"
+            w="120px"
             m="5px"
             direction="column"
             bg="teal.200"
@@ -66,6 +66,7 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
                     justify="space-between"
                     fontSize="10px"
                     color="white"
+                    p="2px"
                     top={`${
                       ((swtch.start - startTime) / (30 * 60 * 1000)) *
                       (100 / 17)
@@ -75,13 +76,17 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
                       (100 / 17)
                     }%`}
                   >
-                    <Text>
-                      {new Date(swtch.start).toLocaleTimeString().slice(0, 5)}
-                    </Text>
-                    <Text>{swtch.use}</Text>
-                    <Text>
-                      {new Date(swtch.end).toLocaleTimeString().slice(0, 5)}
-                    </Text>
+                    <Text fontSize="18px">{swtch.use}</Text>
+                    {materialPlan[mat][index + 1] ? (
+                      <Text fontSize="14px">
+                        {new Date(swtch.start).toLocaleTimeString().slice(0, 5)}
+                      </Text>
+                    ) : (
+                      <Text fontSize="14px">
+                        {new Date(swtch.start).toLocaleTimeString().slice(0, 5)}
+                        -{new Date(swtch.end).toLocaleTimeString().slice(0, 5)}
+                      </Text>
+                    )}
                   </Flex>
                 );
               })}

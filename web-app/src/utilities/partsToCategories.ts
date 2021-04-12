@@ -5,7 +5,7 @@ export const partsToCategories = (parts: partsJsonTypes) => {
   const imms: { [key in string]: string[] } = {};
   const projects: { [key in string]: string[] } = {};
 
-  Object.keys(parts).map((part) => {
+  Object.keys(parts).forEach((part) => {
     for (const material of parts[part].materials) {
       if (materials.hasOwnProperty(material.sap)) {
         materials[material.sap].push(part);

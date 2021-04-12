@@ -31,7 +31,7 @@ const Visual: FC<VisualProps> = ({ plans }) => {
 
   const { startTime, endTime } = getShift(min);
   return (
-    <Flex h="100%" w={`${Object.keys(immPlans).length * 75}px`}>
+    <Flex h="100%" w="max-content">
       {Object.keys(immPlans)
         .sort((a, b) => ~~a.slice(3) - ~~b.slice(3))
         .map((imm, index) => {
@@ -40,8 +40,8 @@ const Visual: FC<VisualProps> = ({ plans }) => {
               key={index}
               direction="column"
               m="10px"
-              h="95%"
-              w="70px"
+              h={{ sm: "800px", lg: "95%" }}
+              w={{ sm: "70px", lg: "120px" }}
               bg="lightblue"
               position="relative"
             >
@@ -72,8 +72,11 @@ const Visual: FC<VisualProps> = ({ plans }) => {
                       textAlign="center"
                       fontSize="18px"
                       key={index}
-                      direction="column"
-                      bg={colors[index]}
+                      direction={{ sm: "column", lg: "row" }}
+                      bg={colors[index % colors.length]}
+                      align="center"
+                      justify="space-between"
+                      p="5px"
                     >
                       <Text fontWeight="700">
                         {new Date(swtch.time).toLocaleTimeString().slice(0, 5)}
