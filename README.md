@@ -1,2 +1,6 @@
 # Inejction-Molding-Hanbook
- Simple web app providing my notes and guidiance to my new job in Injection Molding fields.
+App concept supporting better organization, quality and simplification of work in Injection modling fields.
+  
+   - Typescript
+   - React.js
+   - ChakraUI
