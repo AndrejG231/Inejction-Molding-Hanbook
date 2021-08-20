@@ -22,7 +22,7 @@ const Routes = () => {
       <Route exact path="/list" component={() => <PartsList />} />
       <Route exact path="/source" component={() => <SourceManagement />} />
       <Route exact path="/plans" component={() => <Plans />} />
-      <Route exact path="/part/:partSap" component={() => <PartView />} />
+      <Route exact path="/part/:partId" component={() => <PartView />} />
     </Layout>
   );
 };

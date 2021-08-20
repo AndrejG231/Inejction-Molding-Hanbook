@@ -11,6 +11,6 @@ export type partsMaterialTypes = {
 }
 
 export type partsImmsTypes = {
-  [key in number]: string
+  [key in string]: string
 }
 
