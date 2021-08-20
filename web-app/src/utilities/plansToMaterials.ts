@@ -1,5 +1,5 @@
 import { editValuesT } from "../redux/Plans/Reducer";
-import { parts } from "../private/data";
+import { parts } from "../data/data";
 import { plansToImms } from "./planToImms";
 
 export const plansToMaterials = (plan: editValuesT[], max: number) => {
