@@ -39,7 +39,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
                       }
-                      return <Part part={parts[part].description} key={index} />;
+                      return <Part partIndex={part} key={index} />;
                     })
                   : null}
               </VStack>

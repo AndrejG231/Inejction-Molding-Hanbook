@@ -5,7 +5,7 @@ import { ReduxStoreT } from "../../redux/reduxStore";
 import { editValuesT } from "../../redux/Plans/Reducer";
 import { getMaxMin } from "../../utilities/getMaxMin";
 import { Text, Box, Center, Flex } from "@chakra-ui/react";
-import { materials } from "../../private/data";
+import { materials } from "../../data/data";
 import { plansToMaterials } from "../../utilities/plansToMaterials";
 import { getShift } from "../../utilities/getShift";
 
