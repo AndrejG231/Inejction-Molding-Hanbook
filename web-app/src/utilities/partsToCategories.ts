@@ -1,31 +1,31 @@
 import { partsJsonTypes } from "../types/jsonTypes";
 
 export const partsToCategories = (parts: partsJsonTypes) => {
-  const materials: { [key in string]: string[] } = {};
-  const imms: { [key in string]: string[] } = {};
-  const projects: { [key in string]: string[] } = {};
+  const materials: { [key in string]: number[] } = {};
+  const imms: { [key in string]: number[] } = {};
+  const projects: { [key in string]: number[] } = {};
 
-  Object.keys(parts).forEach((part) => {
-    for (const material of parts[part].materials) {
-      if (materials.hasOwnProperty(material.sap)) {
-        materials[material.sap].push(part);
+  parts.forEach((part, index) => {
+    for (const material of part.materials) {
+      if (materials.hasOwnProperty(material.id)) {
+        materials[material.id].push(index);
       } else {
-        materials[material.sap] = [part];
+        materials[material.id] = [index];
       }
     }
 
-    for (const imm of parts[part].molds) {
+    for (const imm of part.molds) {
       if (imms.hasOwnProperty(imm.imm)) {
-        imms[imm.imm].push(part);
+        imms[imm.imm].push(index);
       } else {
-        imms[imm.imm] = [part];
+        imms[imm.imm] = [index];
       }
     }
 
-    if (projects.hasOwnProperty(parts[part].project)) {
-      projects[parts[part].project].push(part);
+    if (projects.hasOwnProperty(part.project)) {
+      projects[part.project].push(index);
     } else {
-      projects[parts[part].project] = [part];
+      projects[part.project] = [index];
     }
   });
   return { materials, imms, projects };

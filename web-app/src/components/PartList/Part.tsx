@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import { Center } from "@chakra-ui/react";
-import { parts } from "../../private/data";
+import {parts} from "../../data/data";
 
 interface PartProps {
-  part: string;
+  partIndex:number;
 }
 
-export const Part: FC<PartProps> = ({ part }) => {
+export const Part: FC<PartProps> = ({ partIndex }) => {
   const nav = useHistory();
   return (
     <Center
@@ -21,9 +21,9 @@ export const Part: FC<PartProps> = ({ part }) => {
       fontFamily="Times new roman"
       borderRadius="10px"
       fontWeight="700"
-      onClick={() => nav.push(`/part/${part}`)}
+      onClick={() => nav.push(`/part/${partIndex}`)}
     >
-      {parts[part].description}
+      {parts[partIndex].description}
     </Center>
   );
 };

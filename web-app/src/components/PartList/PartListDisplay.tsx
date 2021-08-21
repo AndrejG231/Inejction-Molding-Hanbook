@@ -4,7 +4,7 @@ import { VStack } from "@chakra-ui/react";
 import { PartCategory } from "./Category";
 import { Part } from "./Part";
 
-import { materials as materialsNames, parts } from "../../private/data";
+import { materials as materialsNames, parts } from "../../data/data";
 import { booleanObject } from "../../types/globalTypes";
 import { partsToCategories } from "../../utilities/partsToCategories";
 
@@ -39,7 +39,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
                       }
-                      return <Part part={part} key={index} />;
+                      return <Part part={parts[part].description} key={index} />;
                     })
                   : null}
               </VStack>
@@ -62,7 +62,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
                       }
-                      return <Part part={part} key={index} />;
+                      return <Part partIndex={part} key={index} />;
                     })
                   : null}
               </VStack>
@@ -84,7 +84,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
                       }
-                      return <Part part={part} key={index} />;
+                      return <Part partIndex={part} key={index} />;
                     })
                   : null}
               </VStack>
@@ -95,13 +95,13 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
     default:
       return (
         <VStack my="20px">
-          {Object.keys(parts)
-            .sort((a, b) => ~~a - ~~b)
+          {parts
+            .sort((a, b) => a.description > b.description ? 1 : -1)
             .map((part, index) => {
-              if (search && !search.test(parts[part].description)) {
+              if (search && !search.test(part.description)) {
                 return null;
               }
-              return <Part part={part} key={index} />;
+              return <Part partIndex={index} key={index} />;
             })}
         </VStack>
       );
