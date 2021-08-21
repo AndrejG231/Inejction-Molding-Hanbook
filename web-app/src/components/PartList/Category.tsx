@@ -21,6 +21,7 @@ export const PartCategory: FC<CategoryProps> = ({ children, onClick }) => {
       fontFamily="Times new roman"
       borderRadius="10px"
       fontWeight="700"
+      cursor="pointer"
       onClick={onClick}
     >
       {children}

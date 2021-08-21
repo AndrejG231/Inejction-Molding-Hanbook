@@ -11,6 +11,7 @@ export const Part: FC<PartProps> = ({ partIndex }) => {
   const nav = useHistory();
   return (
     <Center
+      cursor="pointer"
       h="60px"
       w="80%"
       bg="cyan.300"

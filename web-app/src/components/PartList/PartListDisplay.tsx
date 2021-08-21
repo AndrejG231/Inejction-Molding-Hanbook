@@ -51,7 +51,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
     case "imm":
       return (
         <VStack my="20px">
-          {Object.keys(imms).map((imm, index) => {
+          {Object.keys(imms).sort((a,b) => ~~a - ~~b).map((imm, index) => {
             return (
               <VStack key={index} w="100%">
                 <PartCategory onClick={handleCategoryOpen(imm)}>
@@ -73,8 +73,8 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
     case "material":
       return (
         <VStack my="20px">
-          {Object.keys(materials).map((material, index) => {
-            return (
+          {Object.keys(materials).sort((a,b) => materialsNames[a] > materialsNames[b] ? 1 : -1).map((material, index) => {
+             return (
               <VStack key={index} w="100%">
                 <PartCategory onClick={handleCategoryOpen(material)}>
                   {materialsNames[material]}
@@ -83,7 +83,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                   ? materials[material].map((part, index) => {
                       if (search && !search.test(parts[part].description)) {
                         return null;
-                      }
+                      } 
                       return <Part partIndex={part} key={index} />;
                     })
                   : null}
