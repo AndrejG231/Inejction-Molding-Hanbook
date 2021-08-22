@@ -15,7 +15,8 @@ interface PartListProps {
 
 export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   const [openedCategories, setOpenedCategories] = useState<booleanObject>({});
-  const { materials, imms, projects } = partsToCategories(parts);
+  const { materials, imms, projects } = partsToCategories(parts, search);
+
 
   const handleCategoryOpen = (category: string) => () => {
     setOpenedCategories({
@@ -80,12 +81,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                   {materialsNames[material]}
                 </PartCategory>
                 {openedCategories[material]
-                  ? materials[material].map((part, index) => {
-                      if (search && !search.test(parts[part].description)) {
-                        return null;
-                      } 
-                      return <Part partIndex={part} key={index} />;
-                    })
+                  ? materials[material].map((part, index) => <Part partIndex={part} key={index} />)
                   : null}
               </VStack>
             );
@@ -97,10 +93,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
         <VStack my="20px">
           {parts
             .sort((a, b) => a.description > b.description ? 1 : -1)
-            .map((part, index) => {
-              if (search && !search.test(part.description)) {
-                return null;
-              }
+            .map((_, index) => {
               return <Part partIndex={index} key={index} />;
             })}
         </VStack>
