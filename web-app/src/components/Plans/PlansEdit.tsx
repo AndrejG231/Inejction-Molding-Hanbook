@@ -21,7 +21,7 @@ import {
 import { editValuesT } from "../../redux/Plans/Reducer";
 import { ReduxStoreT } from "../../redux/reduxStore";
 
-import { imms } from "../../private/data";
+import { imms } from "../../data/data";
 
 const keys = [
   ["7", "8", "9"],
@@ -82,7 +82,7 @@ export const PlansEdit: FC<plansEditProps> = ({
     <Flex py="5px" h="100%" direction={{ sm: "column", lg: "row" }}>
       <Flex h="100%">
         <VStack mx="5px" my="20px" spacing="auto">
-          {imms.map((imm, index) => {
+          {Object.keys(imms).map((imm, index) => {
             return (
               <Button
                 key={index}

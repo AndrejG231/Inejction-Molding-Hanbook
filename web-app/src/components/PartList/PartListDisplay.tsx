@@ -94,7 +94,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
           {parts
             .sort((a, b) => a.description > b.description ? 1 : -1)
             .map((_, index) => {
-              return <Part partIndex={index} key={index} />;
+              return !search || search.test(parts[index].description) ? <Part partIndex={index} key={index} /> : null;
             })}
         </VStack>
       );
