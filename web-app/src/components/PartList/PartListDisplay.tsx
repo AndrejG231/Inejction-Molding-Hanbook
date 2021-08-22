@@ -17,6 +17,7 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   const [openedCategories, setOpenedCategories] = useState<booleanObject>({});
   const { materials, imms, projects } = partsToCategories(parts, search);
 
+  console.log(imms)
 
   const handleCategoryOpen = (category: string) => () => {
     setOpenedCategories({
@@ -37,9 +38,6 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                 </PartCategory>
                 {openedCategories[category]
                   ? projects[category].map((part, index) => {
-                      if (search && !search.test(parts[part].description)) {
-                        return null;
-                      }
                       return <Part partIndex={part} key={index} />;
                     })
                   : null}
@@ -60,9 +58,6 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
                 </PartCategory>
                 {openedCategories[imm]
                   ? imms[imm].map((part, index) => {
-                      if (search && !search.test(parts[part].description)) {
-                        return null;
-                      }
                       return <Part partIndex={part} key={index} />;
                     })
                   : null}
@@ -94,7 +89,8 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
           {parts
             .sort((a, b) => a.description > b.description ? 1 : -1)
             .map((_, index) => {
-              return !search || search.test(parts[index].description) ? <Part partIndex={index} key={index} /> : null;
+              return !search || search.test(parts[index].description) || search.test(`${parts[index].moldNumber}`) 
+                ? <Part partIndex={index} key={index} /> : null;
             })}
         </VStack>
       );

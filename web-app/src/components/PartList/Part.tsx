@@ -24,7 +24,7 @@ export const Part: FC<PartProps> = ({ partIndex }) => {
       fontWeight="700"
       onClick={() => nav.push(`/part/${partIndex}`)}
     >
-      {parts[partIndex].description}
+      {parts[partIndex].moldNumber}-{parts[partIndex].description}
     </Center>
   );
 };

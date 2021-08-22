@@ -84,7 +84,7 @@ const PlanItem: FC<PlanItemProps> = ({
           transform="translateY(-12px)"
           textAlign="center"
         >
-          {swtch.mold.slice(3)}
+          {swtch.mold}
         </Text>
       </Flex>
       <Button

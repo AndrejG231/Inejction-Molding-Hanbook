@@ -6,7 +6,7 @@ export const partsToCategories = (parts: partsJsonTypes, search?: RegExp) => {
   const projects: { [key in string]: number[] } = {};
 
   parts.forEach((part, index) => {
-    if(!search || search.test(part.description)){
+    if(!search || search.test(part.description) || search.test(`${part.moldNumber}`)){
       for (const material of part.materials) {
         if (materials.hasOwnProperty(material.id)) {
           materials[material.id].push(index);

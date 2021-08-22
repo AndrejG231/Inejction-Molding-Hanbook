@@ -202,12 +202,19 @@ export const PlansEdit: FC<plansEditProps> = ({
             Cancel
           </Button>
         </Flex>
-        <Button colorScheme="yellow" onClick={() => saveEdits()}>
+        <Button
+          colorScheme="yellow"
+          onClick={() => {
+            removeSwitch()
+            saveEdits()
+          }}
+        >
           Save & Next
         </Button>
         <Button
           colorScheme="green"
           onClick={() => {
+            removeSwitch();
             saveEdits();
             setEditMode(false);
           }}

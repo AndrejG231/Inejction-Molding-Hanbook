@@ -7,6 +7,6 @@ export type action = { type: string; data: any };
 
 export type switchPerMolds = {
   time: number;
-  previous: string;
-  nextForm: string;
+  previous: number;
+  nextForm: number;
 };

@@ -4,9 +4,7 @@ import { plansToImms } from "./planToImms";
 
 export const plansToMaterials = (plan: editValuesT[], max: number) => {
   const immPlan = plansToImms(plan);
-  const matPlan: {
-    [key in string]: { start: number; end: number; use: number }[];
-  } = {};
+  const matPlan: Record<string, { start: number; end: number; use: number }[]> = {};
 
   for (const imm of Object.keys(immPlan)) {
     for (let i = 0; i < immPlan[imm].length; i++) {

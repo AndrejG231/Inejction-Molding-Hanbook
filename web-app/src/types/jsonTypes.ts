@@ -4,6 +4,7 @@ export type partsJsonTypes = {
     materials: { id: string; portion: number; volume: number }[];
     molds: { imm: string; cycleTime: number }[];
     project: string;
+    moldNumber: number;
 }[];
 
 export type partsMaterialTypes = {
