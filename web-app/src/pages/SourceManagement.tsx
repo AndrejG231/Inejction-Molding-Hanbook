@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 
@@ -14,8 +13,8 @@ import {
   reloadCookies,
   setEditValues,
 } from "../redux/SourceManagement/Actions";
-import { SourceManagementStateT } from "../redux/SourceManagement/Reducer";
 import { ReduxStoreT } from "../redux/reduxStore";
+import { editValuesT } from "../redux/SourceManagement/Reducer";
 
 const defaultEditState = {
   name: "",
@@ -23,25 +22,15 @@ const defaultEditState = {
   info: "",
 };
 
-const StateToProps = (state: ReduxStoreT) => {
-  return {
-    state: state.sourceManagement,
-  };
-};
 
-const DispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatch: dispatch,
-  };
-};
 
-interface SourceManagementProps {
-  state: SourceManagementStateT;
-  dispatch: (action: any) => void;
-}
-
-const SourceManagement: FC<SourceManagementProps> = ({ state, dispatch }) => {
-  const { editMode, selectionMode, sources } = state;
+const SourceManagement: FC = () => {
+  const dispatch = useDispatch();
+  const { editMode, selectionMode, sources } = useSelector((state: ReduxStoreT) => ({
+    editMode: state.sourceManagement.editMode,
+    selectionMode: state.sourceManagement.selectionMode,
+    sources: state.sourceManagement.sources,
+  }));
 
   useEffect(() => {
     if (!editMode) {
@@ -60,7 +49,7 @@ const SourceManagement: FC<SourceManagementProps> = ({ state, dispatch }) => {
   return (
     <Flex alignItems="center" direction="column">
       <VStack w="100%" align="center">
-        {sources.map((cookie, index) => {
+        {sources.map((cookie: editValuesT, index: number) => {
           return (
             <Flex
               key={index}
@@ -113,4 +102,5 @@ const SourceManagement: FC<SourceManagementProps> = ({ state, dispatch }) => {
   );
 };
 
-export default connect(StateToProps, DispatchToProps)(SourceManagement);
+export default SourceManagement;
+

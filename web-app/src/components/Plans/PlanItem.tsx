@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
@@ -10,41 +9,32 @@ import { IoMdArrowRoundForward } from "react-icons/io";
 import { editValuesT } from "../../redux/Plans/Reducer";
 import {
   loadEditValues,
-  setChecked,
+  setChecked as setCheckedAction,
   setEditIndex,
   setEditMode,
 } from "../../redux/Plans/Actions";
 
-const StateToProps = () => {
-  return {};
-};
-
-const DispatchToProps = (dispatch: Dispatch) => {
-  return {
-    setChecked: (index: number) => dispatch(setChecked(index)),
-    editPlan: (index: number) => {
-      dispatch(setEditIndex(index));
-      dispatch(loadEditValues(index));
-      dispatch(setEditMode(true));
-    },
-  };
-};
 
 interface PlanItemProps {
   swtch: editValuesT;
   previousForm: number;
   index: number;
-  setChecked: (index: number) => void;
-  editPlan: (index: number) => void;
 }
 
 const PlanItem: FC<PlanItemProps> = ({
   swtch,
   previousForm,
   index,
-  setChecked,
-  editPlan,
 }) => {
+
+  const dispatch = useDispatch();
+  const setChecked = (index: number) => dispatch(setCheckedAction(index));
+  const editPlan = (index: number) => {
+      dispatch(setEditIndex(index));
+      dispatch(loadEditValues(index));
+      dispatch(setEditMode(true));
+  }
+
   return (
     <Flex
       m="auto"
@@ -143,4 +133,4 @@ const PlanItem: FC<PlanItemProps> = ({
   );
 };
 
-export default connect(StateToProps, DispatchToProps)(PlanItem);
+export default PlanItem;

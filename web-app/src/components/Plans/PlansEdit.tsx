@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Box,
@@ -18,7 +17,6 @@ import {
   setEditMode,
   setEditValues,
 } from "../../redux/Plans/Actions";
-import { editValuesT } from "../../redux/Plans/Reducer";
 import { ReduxStoreT } from "../../redux/reduxStore";
 
 import { imms } from "../../data/data";
@@ -31,56 +29,29 @@ const keys = [
   ["C", "0", "<"],
 ];
 
-const StateToProps = (state: ReduxStoreT) => {
-  return {
-    values: state.plans.editValues,
-  };
-};
-
-const DispatchToProps = (dispatch: Dispatch) => {
-  return {
-    setEditValues: (editValues: editValuesT) =>
-      dispatch(setEditValues(editValues)),
-    setEditMode: (mode: boolean) => dispatch(setEditMode(mode)),
-    saveEdits: () => dispatch(saveEdits()),
-    removeSwitch: () => dispatch(deleteSwitch()),
-  };
-};
-
-interface plansEditProps {
-  values: editValuesT;
-  setEditValues: (editValues: editValuesT) => void;
-  setEditMode: (mode: boolean) => void;
-  saveEdits: () => void;
-  removeSwitch: () => void;
-}
-
-export const PlansEdit: FC<plansEditProps> = ({
-  values,
-  setEditValues,
-  setEditMode,
-  saveEdits,
-  removeSwitch,
-}) => {
+export const PlansEdit: FC = () => {
   const [selected, setSelected] = useState<"nextForm" | "previous">("nextForm");
+
+  const {values} = useSelector((state: ReduxStoreT) => ({ values: state.plans.editValues }));
+  const dispatch = useDispatch();
 
   // Handle key pressed on screen or keyboard
   const handleClick = useCallback((number: string) => {
     if (number === "<") {
-      return setEditValues({
+      return dispatch(setEditValues({
         ...values,
         [selected]: values[selected].slice(0, -1),
-      });
+      }));
     }
 
     if (number === "C") {
-      return setEditValues({
+      return dispatch(setEditValues({
         ...values,
         [selected]: "",
-      });
+      }));
     }
-    return setEditValues({ ...values, [selected]: values[selected] + number });
-  }, [selected, values, setEditValues]);
+    return dispatch(setEditValues({ ...values, [selected]: values[selected] + number }));
+  }, [selected, values, dispatch]);
 
   // Keyboard only inputs handle
   const handleKeyInput = useCallback((e: KeyboardEvent) => {
@@ -108,7 +79,7 @@ export const PlansEdit: FC<plansEditProps> = ({
             <Button
               key={index}
               colorScheme={values.mold === imm ? "red" : "linkedin"}
-              onClick={() => setEditValues({ ...values, mold: imm })}
+              onClick={() => dispatch(setEditValues({ ...values, mold: imm }))}
               fontSize="22px"
             >
               {imm}
@@ -126,10 +97,10 @@ export const PlansEdit: FC<plansEditProps> = ({
             <HStack p="7px" borderRadius="10px" h="50px" bg="teal" w="100%">
               <Button
                 onClick={() =>
-                  setEditValues({
+                  dispatch(setEditValues({
                     ...values,
                     time: values.time - 30 * 60 * 1000,
-                  })
+                  }))
                 }
               >
                 -30
@@ -142,10 +113,10 @@ export const PlansEdit: FC<plansEditProps> = ({
               />
               <Button
                 onClick={() =>
-                  setEditValues({
+                  dispatch(setEditValues({
                     ...values,
                     time: values.time + 30 * 60 * 1000,
-                  })
+                  }))
                 }
               >
                 +30
@@ -208,8 +179,8 @@ export const PlansEdit: FC<plansEditProps> = ({
               flex={1}
               colorScheme="red"
               onClick={() => {
-                removeSwitch();
-                setEditMode(false);
+                dispatch(deleteSwitch());
+                dispatch(setEditMode(false));
               }}
             >
               Remove
@@ -218,7 +189,7 @@ export const PlansEdit: FC<plansEditProps> = ({
             <Button
               flex={1}
               colorScheme="orange"
-              onClick={() => setEditMode(false)}
+              onClick={() => dispatch(setEditMode(false))}
             >
               Cancel
             </Button>
@@ -226,8 +197,8 @@ export const PlansEdit: FC<plansEditProps> = ({
           <Button
             colorScheme="yellow"
             onClick={() => {
-              removeSwitch()
-              saveEdits()
+              dispatch(deleteSwitch())
+              dispatch(saveEdits())
             }}
           >
             Save & Next
@@ -235,9 +206,9 @@ export const PlansEdit: FC<plansEditProps> = ({
           <Button
             colorScheme="green"
             onClick={() => {
-              removeSwitch();
-              saveEdits();
-              setEditMode(false);
+              dispatch(deleteSwitch());
+              dispatch(saveEdits());
+              dispatch(setEditMode(false));
             }}
           >
             Save
@@ -250,8 +221,8 @@ export const PlansEdit: FC<plansEditProps> = ({
             flex={1}
             colorScheme="red"
             onClick={() => {
-              removeSwitch();
-              setEditMode(false);
+              dispatch(deleteSwitch());
+              dispatch(setEditMode(false));
             }}
           >
             Remove
@@ -260,7 +231,7 @@ export const PlansEdit: FC<plansEditProps> = ({
             flex={1}
             my="10px"
             colorScheme="orange"
-            onClick={() => setEditMode(false)}
+            onClick={() => dispatch(setEditMode(false))}
           >
             Cancel
           </Button>
@@ -269,8 +240,8 @@ export const PlansEdit: FC<plansEditProps> = ({
             my="10px"
             colorScheme="yellow"
             onClick={() => {
-              removeSwitch()
-              saveEdits()
+              dispatch(deleteSwitch())
+              dispatch(saveEdits())
             }}
           >
             Save & Next
@@ -280,9 +251,9 @@ export const PlansEdit: FC<plansEditProps> = ({
             flex={1}
             colorScheme="green"
             onClick={() => {
-              removeSwitch();
-              saveEdits();
-              setEditMode(false);
+              dispatch(deleteSwitch());
+              dispatch(saveEdits());
+              dispatch(setEditMode(false));
             }}
           >
             Save
@@ -293,4 +264,4 @@ export const PlansEdit: FC<plansEditProps> = ({
   );
 };
 
-export default connect(StateToProps, DispatchToProps)(PlansEdit);
+export default PlansEdit;

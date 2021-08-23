@@ -7,6 +7,7 @@ import { Part } from "./Part";
 import { materials as materialsNames, parts } from "../../data/data";
 import { booleanObject } from "../../types/globalTypes";
 import { partsToCategories } from "../../utilities/partsToCategories";
+import { useCallback } from "react";
 
 interface PartListProps {
   variant: string;
@@ -17,14 +18,12 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
   const [openedCategories, setOpenedCategories] = useState<booleanObject>({});
   const { materials, imms, projects } = partsToCategories(parts, search);
 
-  console.log(imms)
-
-  const handleCategoryOpen = (category: string) => () => {
+  const handleCategoryOpen = useCallback((category: string) => () => {
     setOpenedCategories({
       ...openedCategories,
       [category]: openedCategories[category] ? false : true,
     });
-  };
+  }, [openedCategories]);
 
   switch (variant) {
     case "category":

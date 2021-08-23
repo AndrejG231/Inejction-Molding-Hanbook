@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 
 import { materials } from "../../data/data";
@@ -12,28 +11,13 @@ import {
 } from "../../redux/SourceManagement/Actions";
 
 import { ReduxStoreT } from "../../redux/reduxStore";
-import { SourceManagementStateT } from "../../redux/SourceManagement/Reducer";
 import { createCookie, clearCookie } from "../../utilities/manageCookie";
 
-const StateToProps = (state: ReduxStoreT) => {
-  return {
-    editData: state.sourceManagement.editValues,
-  };
-};
+const EditForm: FC = () => {
+  const dispatch = useDispatch();
+  const { editData } = useSelector((state: ReduxStoreT) => ({ editData: state.sourceManagement.editValues }))
+  const [ oldName ] = useState(editData.name);
 
-const DispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatch: dispatch,
-  };
-};
-
-interface editFormProps {
-  editData: SourceManagementStateT["editValues"];
-  dispatch: Dispatch;
-}
-
-const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
-  const [oldName] = useState(editData.name);
   return (
     <Flex direction="column" m="10px" align="center" h="90%">
       <Input
@@ -132,4 +116,4 @@ const EditForm: FC<editFormProps> = ({ editData, dispatch }) => {
   );
 };
 
-export default connect(StateToProps, DispatchToProps)(EditForm);
+export default EditForm;

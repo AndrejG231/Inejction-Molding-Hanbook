@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { editValuesT } from "../../redux/Plans/Reducer";
 import { getMaxMin } from "../../utilities/getMaxMin";
 import { Text, Box, Center, Flex } from "@chakra-ui/react";
@@ -17,7 +17,7 @@ const MaterialFlow: FC = () => {
   }))
   const { min } = getMaxMin(plan, "time");
   const { startTime, endTime } = getShift(min);
-  const materialPlan = plansToMaterials(plan, endTime);
+  const materialPlan = useMemo(() => plansToMaterials(plan, endTime), [plan, endTime]);
   return (
     <Flex
       h="100%"

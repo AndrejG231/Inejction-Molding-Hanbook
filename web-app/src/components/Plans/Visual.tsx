@@ -1,32 +1,19 @@
 import React, { FC } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { ReduxStoreT } from "../../redux/reduxStore";
 import { getMaxMin } from "../../utilities/getMaxMin";
-import { editValuesT } from "../../redux/Plans/Reducer";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { plansToImms } from "../../utilities/planToImms";
 import { switchPerMolds } from "../../types/globalTypes";
 import { getShift } from "../../utilities/getShift";
 import { msToDisplay } from "../../utilities/msToDisplay";
 
-const StateToProps = (state: ReduxStoreT) => {
-  return {
-    plans: state.plans.plans,
-  };
-};
-
-const DispatchToProps = (dispatch: Dispatch) => {
-  return {};
-};
-
-interface VisualProps {
-  plans: editValuesT[];
-}
-
 const colors = ["LawnGreen", "aqua", "DarkOrchid", "Gold", "Chartreuse", "Red"];
 
-const Visual: FC<VisualProps> = ({ plans }) => {
+const Visual: FC = () => {
+  const {plans} = useSelector((state: ReduxStoreT) => ({
+    plans: state.plans.plans
+  }))
   const { min } = getMaxMin(plans, "time");
   const immPlans = plansToImms(plans);
 
@@ -94,4 +81,4 @@ const Visual: FC<VisualProps> = ({ plans }) => {
   );
 };
 
-export default connect(StateToProps, DispatchToProps)(Visual);
+export default Visual;
