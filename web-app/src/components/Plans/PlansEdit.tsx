@@ -100,23 +100,25 @@ export const PlansEdit: FC<plansEditProps> = ({
   }, [handleKeyInput])
 
   return (
-    <Flex py="5px" h="100%" direction={{ sm: "column", lg: "row" }}>
-      <Flex h="100%">
-        <VStack mx="5px" my="20px" spacing="auto">
-          {Object.keys(imms).map((imm, index) => {
-            return (
-              <Button
-                key={index}
-                colorScheme={values.mold === imm ? "red" : "linkedin"}
-                onClick={() => setEditValues({ ...values, mold: imm })}
-                fontSize="22px"
-              >
-                {imm}
-              </Button>
-            );
-          })}
-        </VStack>
-        <Flex direction="column" justify="space-evenly" align="stretch">
+    <Flex w="100%" h="100%" direction="row">
+      {/* IMM SELECTION */}
+      <VStack mx="5px" my="20px" spacing="auto">
+        {Object.keys(imms).map((imm, index) => {
+          return (
+            <Button
+              key={index}
+              colorScheme={values.mold === imm ? "red" : "linkedin"}
+              onClick={() => setEditValues({ ...values, mold: imm })}
+              fontSize="22px"
+            >
+              {imm}
+            </Button>
+          );
+        })}
+      </VStack>
+      <Flex w="100%" py="5px" h="100%" direction={{ sm: "column", lg: "row" }}>
+        {/* Main Editor content */}
+        <Flex direction="column" justify="space-evenly" align="stretch" ml="auto" >
           <Box>
             <Heading mb="15px" textAlign="center">
               Time:
@@ -199,10 +201,52 @@ export const PlansEdit: FC<plansEditProps> = ({
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
-      <VStack spacing="5px" justify="stretch" align="stretch" p="10px">
-        <Flex w="100%" justify="stretch">
+        {/* FINISHING ACTION BUTTONS */}
+        <VStack spacing="5px" justify="stretch" align="stretch" p="10px" display={{sm: "flex", lg: "none"}}>
+          <Flex w="100%" justify="stretch" direction={{sm: "row", lg: "column"}}>
+            <Button
+              flex={1}
+              colorScheme="red"
+              onClick={() => {
+                removeSwitch();
+                setEditMode(false);
+              }}
+            >
+              Remove
+            </Button>
+            <Box w="5px" />
+            <Button
+              flex={1}
+              colorScheme="orange"
+              onClick={() => setEditMode(false)}
+            >
+              Cancel
+            </Button>
+          </Flex>
           <Button
+            colorScheme="yellow"
+            onClick={() => {
+              removeSwitch()
+              saveEdits()
+            }}
+          >
+            Save & Next
+          </Button>
+          <Button
+            colorScheme="green"
+            onClick={() => {
+              removeSwitch();
+              saveEdits();
+              setEditMode(false);
+            }}
+          >
+            Save
+          </Button>
+        </VStack>
+        {/* Finishing action buttons bigscreen */}
+        <Flex mr="15px" ml="auto" h="100%" direction="column" display={{sm: "none", lg: "flex"}}>
+          <Button
+            my="10px"
             flex={1}
             colorScheme="red"
             onClick={() => {
@@ -212,35 +256,39 @@ export const PlansEdit: FC<plansEditProps> = ({
           >
             Remove
           </Button>
-          <Box w="5px" />
           <Button
             flex={1}
+            my="10px"
             colorScheme="orange"
             onClick={() => setEditMode(false)}
           >
             Cancel
           </Button>
+          <Button
+            flex={1}
+            my="10px"
+            colorScheme="yellow"
+            onClick={() => {
+              removeSwitch()
+              saveEdits()
+            }}
+          >
+            Save & Next
+          </Button>
+          <Button
+            my="10px"
+            flex={1}
+            colorScheme="green"
+            onClick={() => {
+              removeSwitch();
+              saveEdits();
+              setEditMode(false);
+            }}
+          >
+            Save
+          </Button>
         </Flex>
-        <Button
-          colorScheme="yellow"
-          onClick={() => {
-            removeSwitch()
-            saveEdits()
-          }}
-        >
-          Save & Next
-        </Button>
-        <Button
-          colorScheme="green"
-          onClick={() => {
-            removeSwitch();
-            saveEdits();
-            setEditMode(false);
-          }}
-        >
-          Save
-        </Button>
-      </VStack>
+      </Flex>
     </Flex>
   );
 };
