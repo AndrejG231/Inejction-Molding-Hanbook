@@ -42,6 +42,7 @@ export const PartsList = () => {
         />
       </InputGroup>
       <Box flex={1} overflowY="scroll">
+        {/* DIFFERENT LISTS OF PARTS DISPLAY BASED ON SPECIFIED PAGE */}
         <PartListDisplay variant={listType} search={searchRegExp} />
       </Box>
     </WithNavbar>

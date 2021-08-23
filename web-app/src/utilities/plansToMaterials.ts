@@ -3,8 +3,9 @@ import { parts } from "../data/data";
 import { plansToImms } from "./planToImms";
 
 export const plansToMaterials = (plan: editValuesT[], max: number) => {
+  // Function that calculates usage of materials per switch time segments
   const immPlan = plansToImms(plan);
-  const matPlan: Record<string, { start: number; end: number; use: number }[]> = {};
+  const matPlan: Record<string, { start: number; end: number; volume: number }[]> = {};
 
   for (const imm of Object.keys(immPlan)) {
     for (let i = 0; i < immPlan[imm].length; i++) {
@@ -20,136 +21,147 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
       ];
 
       for (const mat of materials) {
-        const use = Math.floor((mat.portion * 60) / 1000);
-        if (matPlan.hasOwnProperty(mat.sap)) {
-          for (let j = 0; j < matPlan[mat.sap].length; j++) {
-            let segment = matPlan[mat.sap][j];
+        const volume = mat.volume;
+        if (matPlan.hasOwnProperty(mat.id)) {
+          // Case of current material already in list 
+          for (let j = 0; j < matPlan[mat.id].length; j++) {
+            let segment = matPlan[mat.id][j];
 
             if (start < segment.start) {
               if (end <= segment.start) {
-                matPlan[mat.sap] = [
-                  ...matPlan[mat.sap].slice(0, j),
-                  { start, end, use },
-                  ...matPlan[mat.sap].slice(j),
+                // Insert in front of next
+                matPlan[mat.id] = [
+                  ...matPlan[mat.id].slice(0, j),
+                  { start, end, volume },
+                  ...matPlan[mat.id].slice(j),
                 ];
 
                 start = end;
                 break;
               } else {
                 if (end < segment.end) {
+                  // Insert in front of next and merge into split part of next
                   const newSegments = [
-                    { start: start, end: segment.start, use },
-                    { start: segment.start, end: end, use: use + segment.use },
-                    { start: end, end: segment.end, use: segment.use },
+                    { start: start, end: segment.start, volume },
+                    { start: segment.start, end: end, volume: volume + segment.volume },
+                    { start: end, end: segment.end, volume: segment.volume },
                   ];
 
-                  matPlan[mat.sap] = [
-                    ...matPlan[mat.sap].slice(0, j),
+                  matPlan[mat.id] = [
+                    ...matPlan[mat.id].slice(0, j),
                     ...newSegments,
-                    ...matPlan[mat.sap].slice(j + 1),
+                    ...matPlan[mat.id].slice(j + 1),
                   ];
 
                   start = end;
                   break;
                 } else if (end === segment.end) {
+                  // Insert in front, and merge whole next
                   const newSegments = [
-                    { start, end: segment.start, use: use },
-                    { start: segment.start, end, use: segment.use + use },
+                    { start, end: segment.start, volume: volume },
+                    { start: segment.start, end, volume: segment.volume + volume },
                   ];
 
-                  matPlan[mat.sap] = [
-                    ...matPlan[mat.sap].slice(0, j),
+                  matPlan[mat.id] = [
+                    ...matPlan[mat.id].slice(0, j),
                     ...newSegments,
-                    ...matPlan[mat.sap].slice(j + 1),
+                    ...matPlan[mat.id].slice(j + 1),
                   ];
 
                   start = end;
                   break;
                 } else {
+                  // Insert in front of next, merge whole next, continue with remainder
                   const newSegments = [
-                    { start, end: segment.start, use: use },
+                    { start, end: segment.start, volume: volume },
                     {
                       start: segment.start,
                       end: segment.end,
-                      use: segment.use + use,
+                      volume: segment.volume + volume,
                     },
                   ];
 
-                  matPlan[mat.sap] = [
-                    ...matPlan[mat.sap].slice(0, j),
+                  matPlan[mat.id] = [
+                    ...matPlan[mat.id].slice(0, j),
                     ...newSegments,
-                    ...matPlan[mat.sap].slice(j + 1),
+                    ...matPlan[mat.id].slice(j + 1),
                   ];
 
                   start = segment.end;
                 }
               }
             } else if (start === segment.start) {
+              // Start in same place
               if (end < segment.end) {
+                // End before, merge into split part of next
                 const newSegments = [
-                  { start, end, use: use + segment.use },
-                  { start: end, end: segment.end, use: segment.use },
+                  { start, end, volume: volume + segment.volume },
+                  { start: end, end: segment.end, volume: segment.volume },
                 ];
 
-                matPlan[mat.sap] = [
-                  ...matPlan[mat.sap].slice(0, j),
+                matPlan[mat.id] = [
+                  ...matPlan[mat.id].slice(0, j),
                   ...newSegments,
-                  ...matPlan[mat.sap].slice(j + 1),
+                  ...matPlan[mat.id].slice(j + 1),
                 ];
 
                 start = end;
                 break;
               } else if (end === segment.end) {
-                segment.use = segment.use + use;
+                // Same time segment => just merge
+                segment.volume = segment.volume + volume;
 
                 start = end;
                 break;
               } else {
-                segment.use = segment.use + use;
+                // Continues after, merge segment, continue with remainder
+                segment.volume = segment.volume + volume;
 
                 start = segment.end;
               }
             } else {
               if (start < segment.end) {
+                // Inside of next segment => split and merge into center part
                 if (end < segment.end) {
                   const newSegments = [
-                    { start: segment.start, end: start, use: segment.use },
-                    { start, end, use: segment.use + use },
-                    { start: end, end: segment.end, use: segment.use },
+                    { start: segment.start, end: start, volume: segment.volume },
+                    { start, end, volume: segment.volume + volume },
+                    { start: end, end: segment.end, volume: segment.volume },
                   ];
 
-                  matPlan[mat.sap] = [
-                    ...matPlan[mat.sap].slice(0, j),
+                  matPlan[mat.id] = [
+                    ...matPlan[mat.id].slice(0, j),
                     ...newSegments,
-                    ...matPlan[mat.sap].slice(j + 1),
+                    ...matPlan[mat.id].slice(j + 1),
                   ];
 
                   start = end;
                   break;
                 } else if (end === segment.end) {
+                  // Start inside and same end => merge till end of next
                   const newSegments = [
-                    { start: segment.start, end: start, use: segment.use },
-                    { start, end, use: use + segment.use },
+                    { start: segment.start, end: start, volume: segment.volume },
+                    { start, end, volume: volume + segment.volume },
                   ];
 
-                  matPlan[mat.sap] = [
-                    ...matPlan[mat.sap].slice(0, j),
+                  matPlan[mat.id] = [
+                    ...matPlan[mat.id].slice(0, j),
                     ...newSegments,
-                    ...matPlan[mat.sap].slice(j + 1),
+                    ...matPlan[mat.id].slice(j + 1),
                   ];
 
                   start = end;
                   break;
                 } else {
                   const newSegments = [
-                    { start: segment.start, end: start, use: segment.use },
-                    { start, end: segment.end, use: use + segment.use },
+                    { start: segment.start, end: start, volume: segment.volume },
+                    { start, end: segment.end, volume: volume + segment.volume },
                   ];
 
-                  matPlan[mat.sap] = [
-                    ...matPlan[mat.sap].slice(0, j),
+                  matPlan[mat.id] = [
+                    ...matPlan[mat.id].slice(0, j),
                     ...newSegments,
-                    ...matPlan[mat.sap].slice(j + 1),
+                    ...matPlan[mat.id].slice(j + 1),
                   ];
 
                   start = segment.end;
@@ -158,10 +170,11 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
             }
           }
           if (start !== end) {
-            matPlan[mat.sap].push({ start, end, use });
+            // No segments left in front, push to the end
+            matPlan[mat.id].push({ start, end, volume });
           }
         } else {
-          matPlan[mat.sap] = [{ start, end, use }];
+          matPlan[mat.id] = [{ start, end, volume }];
         }
       }
     }

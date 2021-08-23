@@ -75,7 +75,7 @@ const PlanItem: FC<PlanItemProps> = ({
       </Button>
       <Flex color="white" fontSize="32px" fontWeight="700" direction="column">
         <Text mb="5px">
-          {new Date(swtch.time).toLocaleTimeString().slice(0, 5)}
+          {new Date(swtch.time).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}
         </Text>
         <Text
           borderTop="2px solid teal"

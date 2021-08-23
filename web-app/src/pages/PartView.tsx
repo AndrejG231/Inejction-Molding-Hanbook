@@ -14,7 +14,6 @@ export const PartView = () => {
   const partId = parseInt(partIdStr);
   const materialSources = toMaterialSources(parseMaterialCookies());
 
-  console.log(imms);
 
 
   return (
@@ -31,10 +30,10 @@ export const PartView = () => {
       <Heading size="md" w="90%" textAlign="center">
         Molds:
       </Heading>
-      {parts[partId].molds.map((mold) => {
+      {parts[partId].molds.map((mold, index) => {
         console.log(mold)
         return (
-          <Flex bg="teal.300" p="15px" w="93%" borderRadius="10px">
+          <Flex bg="teal.300" p="15px" w="93%" borderRadius="10px" key={index}>
             <Heading size="sm" mr="auto">
               {imms[mold.imm]}
             </Heading>
@@ -47,7 +46,7 @@ export const PartView = () => {
       <Heading size="md" w="90%" textAlign="center">
         Materials:
       </Heading>
-      {parts[partId].materials.map((material) => {
+      {parts[partId].materials.map((material, index) => {
         return (
           <Flex
             bg="teal.300"
@@ -55,6 +54,7 @@ export const PartView = () => {
             w="93%"
             borderRadius="10px"
             direction="column"
+            key={index}
           >
             <Heading size="sm" m="auto" textAlign="center">
               {materials[material.id]}

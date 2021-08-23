@@ -79,7 +79,7 @@ const Visual: FC<VisualProps> = ({ plans }) => {
                       p="5px"
                     >
                       <Text fontWeight="700">
-                        {new Date(swtch.time).toLocaleTimeString().slice(0, 5)}
+                        {new Date(swtch.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </Text>
                       <Text fontSize="30px">{swtch.nextForm}</Text>
                     </Flex>

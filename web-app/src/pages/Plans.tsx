@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
 import { Box } from "@chakra-ui/react";

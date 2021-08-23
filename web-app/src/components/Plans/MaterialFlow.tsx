@@ -1,32 +1,24 @@
 import React, { FC } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { ReduxStoreT } from "../../redux/reduxStore";
 import { editValuesT } from "../../redux/Plans/Reducer";
 import { getMaxMin } from "../../utilities/getMaxMin";
 import { Text, Box, Center, Flex } from "@chakra-ui/react";
 import { materials } from "../../data/data";
 import { plansToMaterials } from "../../utilities/plansToMaterials";
 import { getShift } from "../../utilities/getShift";
-
-const StateToProps = (state: ReduxStoreT) => {
-  return { plan: state.plans.plans };
-};
-
-const DispatchToProps = (dispatch: Dispatch) => {
-  return {};
-};
-
-interface MaterialFlowProps {
-  plan: editValuesT[];
-}
+import { ReduxStoreT } from "../../redux/reduxStore";
+import { useSelector } from "react-redux";
+import { msToDisplay } from "../../utilities/msToDisplay";
 
 const colors = ["LawnGreen", "aqua", "DarkOrchid", "Gold", "Chartreuse", "Red"];
 
-const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
+const MaterialFlow: FC = () => {
+  const {plan} = useSelector((state: ReduxStoreT) => ({
+    plan: state.plans.plans
+  }))
   const { min } = getMaxMin(plan, "time");
   const { startTime, endTime } = getShift(min);
   const materialPlan = plansToMaterials(plan, endTime);
+  console.log(materialPlan);
   return (
     <Flex
       h="100%"
@@ -47,12 +39,12 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
             <Center
               bg="teal.500"
               w="100%"
-              h="8%"
+              h="16%"
               borderRadius="10px"
               color="white"
               textAlign="center"
             >
-              <Text>{materials[mat]?.slice(0, 10) ?? "Unknown"}</Text>
+              <Text>{materials[mat] ?? "Unknown"}</Text>
             </Center>
             <Box w="100%" h="92%" position="relative">
               {materialPlan[mat].map((swtch, index) => {
@@ -76,17 +68,11 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
                       (100 / 17)
                     }%`}
                   >
-                    <Text fontSize="18px">{swtch.use}</Text>
-                    {materialPlan[mat][index + 1] ? (
+                    <Text fontSize="16px">{swtch.volume}</Text>
                       <Text fontSize="14px">
-                        {new Date(swtch.start).toLocaleTimeString().slice(0, 5)}
+                        {msToDisplay(swtch.start)}
+                        -{msToDisplay(swtch.end)}
                       </Text>
-                    ) : (
-                      <Text fontSize="14px">
-                        {new Date(swtch.start).toLocaleTimeString().slice(0, 5)}
-                        -{new Date(swtch.end).toLocaleTimeString().slice(0, 5)}
-                      </Text>
-                    )}
                   </Flex>
                 );
               })}
@@ -98,4 +84,4 @@ const MaterialFlow: FC<MaterialFlowProps> = ({ plan }) => {
   );
 };
 
-export default connect(StateToProps, DispatchToProps)(MaterialFlow);
+export default MaterialFlow;
