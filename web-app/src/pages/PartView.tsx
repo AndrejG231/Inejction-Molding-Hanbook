@@ -14,8 +14,6 @@ export const PartView = () => {
   const partId = parseInt(partIdStr);
   const materialSources = toMaterialSources(parseMaterialCookies());
 
-
-
   return (
     <Flex
       direction="column"

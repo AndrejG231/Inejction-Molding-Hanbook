@@ -21,15 +21,15 @@ const MaterialFlow: FC = () => {
   return (
     <Flex
       h="100%"
-      w={`${Object.keys(materialPlan).length * 125}px`}
+      w={`${Object.keys(materialPlan).length * 165}px`}
       justify="space-evenly"
     >
       {Object.keys(materialPlan).map((mat, index) => {
         return (
-          <Flex
+          <Box
             key={index}
             h="98%"
-            w="120px"
+            w="160px"
             m="5px"
             direction="column"
             bg="teal.200"
@@ -67,8 +67,8 @@ const MaterialFlow: FC = () => {
                       (100 / 16) 
                     }%`}
                   >
-                    <Text fontSize="16px">{swtch.volume}</Text>
-                      <Text fontSize="14px">
+                    <Text fontSize="22px">{swtch.volume}</Text>
+                      <Text fontSize="15px">
                         {msToDisplay(swtch.start)}
                         -{msToDisplay(swtch.end)}
                       </Text>
@@ -76,7 +76,7 @@ const MaterialFlow: FC = () => {
                 );
               })}
             </Box>
-          </Flex>
+          </Box>
         );
       })}
     </Flex>

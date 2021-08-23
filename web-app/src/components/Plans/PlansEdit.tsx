@@ -84,7 +84,6 @@ export const PlansEdit: FC<plansEditProps> = ({
 
   // Keyboard only inputs handle
   const handleKeyInput = useCallback((e: KeyboardEvent) => {
-    console.log(e.key);
     if(["0", "1", "2", "3", "4","5", "6", "7", "8", "9", "Backspace", "Escape"].includes(e.key)){
       const key = e.key === "Backspace" ? "<" : e.key === "Escape" ? "C" : e.key;
       return handleClick(key);
