@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Button, VStack, Text } from "@chakra-ui/react";
 
-import { materials } from "../../private/data";
+import { materials } from "../../data/data";
 
 import {
   setEditValue,

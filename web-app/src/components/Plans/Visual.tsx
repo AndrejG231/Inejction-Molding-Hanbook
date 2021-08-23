@@ -8,6 +8,7 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { plansToImms } from "../../utilities/planToImms";
 import { switchPerMolds } from "../../types/globalTypes";
 import { getShift } from "../../utilities/getShift";
+import { msToDisplay } from "../../utilities/msToDisplay";
 
 const StateToProps = (state: ReduxStoreT) => {
   return {
@@ -33,7 +34,7 @@ const Visual: FC<VisualProps> = ({ plans }) => {
   return (
     <Flex h="100%" w="max-content">
       {Object.keys(immPlans)
-        .sort((a, b) => ~~a.slice(3) - ~~b.slice(3))
+        .sort((a, b) => ~~a - ~~b)
         .map((imm, index) => {
           return (
             <Flex
@@ -52,7 +53,7 @@ const Visual: FC<VisualProps> = ({ plans }) => {
                 bg="teal"
                 p="5px"
               >
-                {imm.slice(3)}
+                {imm}
               </Heading>
               <Box position="relative" h="100%" overflow="hidden">
                 {immPlans[imm].map((swtch: switchPerMolds, index) => {
@@ -79,7 +80,7 @@ const Visual: FC<VisualProps> = ({ plans }) => {
                       p="5px"
                     >
                       <Text fontWeight="700">
-                        {new Date(swtch.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {msToDisplay(swtch.time)}
                       </Text>
                       <Text fontSize="30px">{swtch.nextForm}</Text>
                     </Flex>

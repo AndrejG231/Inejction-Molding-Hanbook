@@ -9,7 +9,6 @@ export const getShift = (min: number) => {
     }
   }
 
-  startTime -= 30 * 60 * 1000;
   const endTime = startTime + 7.5 * 60 * 60 * 1000;
 
   return { startTime, endTime };
