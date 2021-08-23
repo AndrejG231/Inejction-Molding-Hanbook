@@ -18,7 +18,6 @@ const MaterialFlow: FC = () => {
   const { min } = getMaxMin(plan, "time");
   const { startTime, endTime } = getShift(min);
   const materialPlan = plansToMaterials(plan, endTime);
-  console.log(materialPlan);
   return (
     <Flex
       h="100%"
@@ -46,7 +45,7 @@ const MaterialFlow: FC = () => {
             >
               <Text>{materials[mat] ?? "Unknown"}</Text>
             </Center>
-            <Box w="100%" h="92%" position="relative">
+            <Box w="100%" h="84%" position="relative" overflow="hidden">
               {materialPlan[mat].map((swtch, index) => {
                 return (
                   <Flex
@@ -61,11 +60,11 @@ const MaterialFlow: FC = () => {
                     p="2px"
                     top={`${
                       ((swtch.start - startTime) / (30 * 60 * 1000)) *
-                      (100 / 17)
+                      (100 / 16) 
                     }%`}
                     h={`${
                       ((swtch.end - swtch.start) / (30 * 60 * 1000)) *
-                      (100 / 17)
+                      (100 / 16) 
                     }%`}
                   >
                     <Text fontSize="16px">{swtch.volume}</Text>

@@ -7,7 +7,7 @@ import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import EditForm from "../components/SourceManagement/EditForm";
 import MaterialSelect from "../components/SourceManagement/MaterialSelect";
 
-import { materials } from "../private/data";
+import { materials } from "../data/data";
 
 import {
   setEditMode,
