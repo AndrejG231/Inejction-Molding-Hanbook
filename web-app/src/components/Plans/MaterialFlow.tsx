@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from "react";
-import { editValuesT } from "../../redux/Plans/Reducer";
 import { getMaxMin } from "../../utilities/getMaxMin";
 import { Text, Box, Center, Flex } from "@chakra-ui/react";
 import { materials } from "../../data/data";

@@ -9,8 +9,7 @@ import { clearPlans, setEditMode } from "../../redux/Plans/Actions";
 import { ReduxStoreT } from "../../redux/reduxStore";
 import { numberObject } from "../../types/globalTypes";
 
-export const PlanSetter: FC = ({
-}) => {
+export const PlanSetter: FC = () => {
   const {plan} = useSelector((state: ReduxStoreT) => ({plan: state.plans.plans}));
   const dispatch = useDispatch();
   const previous: numberObject = {};
