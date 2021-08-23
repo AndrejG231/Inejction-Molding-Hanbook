@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -22,6 +22,7 @@ import { editValuesT } from "../../redux/Plans/Reducer";
 import { ReduxStoreT } from "../../redux/reduxStore";
 
 import { imms } from "../../data/data";
+import { msToDisplay } from "../../utilities/msToDisplay";
 
 const keys = [
   ["7", "8", "9"],
@@ -62,7 +63,9 @@ export const PlansEdit: FC<plansEditProps> = ({
   removeSwitch,
 }) => {
   const [selected, setSelected] = useState<"nextForm" | "previous">("nextForm");
-  const handleClick = (number: string) => {
+
+  // Handle key pressed on screen or keyboard
+  const handleClick = useCallback((number: string) => {
     if (number === "<") {
       return setEditValues({
         ...values,
@@ -77,7 +80,26 @@ export const PlansEdit: FC<plansEditProps> = ({
       });
     }
     return setEditValues({ ...values, [selected]: values[selected] + number });
-  };
+  }, [selected, values, setEditValues]);
+
+  // Keyboard only inputs handle
+  const handleKeyInput = useCallback((e: KeyboardEvent) => {
+    console.log(e.key);
+    if(["0", "1", "2", "3", "4","5", "6", "7", "8", "9", "Backspace", "Escape"].includes(e.key)){
+      const key = e.key === "Backspace" ? "<" : e.key === "Escape" ? "C" : e.key;
+      return handleClick(key);
+    }
+    if(e.key === "Tab"){
+      e.preventDefault();
+      return selected === "nextForm" ? setSelected("previous") : setSelected('nextForm');
+    }
+  }, [ handleClick, selected, setSelected ])
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyInput);
+    return () => document.removeEventListener("keydown", handleKeyInput)
+  }, [handleKeyInput])
+
   return (
     <Flex py="5px" h="100%" direction={{ sm: "column", lg: "row" }}>
       <Flex h="100%">
@@ -113,9 +135,7 @@ export const PlansEdit: FC<plansEditProps> = ({
               </Button>
               <Input
                 bg="white"
-                value={`${new Date(values.time)
-                  .toLocaleTimeString()
-                  .slice(0, 5)}`}
+                value={msToDisplay(values.time)}
                 textAlign="center"
                 onChange={() => null}
               />

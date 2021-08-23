@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 
-import { materials } from "../../private/data";
+import { materials } from "../../data/data";
 
 import {
   setEditMode,
