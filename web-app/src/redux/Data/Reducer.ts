@@ -4,7 +4,7 @@ import {
   partsMaterialTypes,
 } from "../../types/jsonTypes";
 
-export type state = {
+export type DataReducerState = {
   parts: partsJsonTypes | null | "error";
   imms: partsImmsTypes | null | "error";
   materials: partsMaterialTypes | null | "error";
@@ -16,7 +16,7 @@ const defaultState = {
   materials: null,
 };
 
-export type actionDataPairs =
+export type ActionDataPairs =
   | {
       field: "parts";
       data: partsJsonTypes;
@@ -27,14 +27,17 @@ export type actionDataPairs =
     }
   | { field: "materials"; data: partsMaterialTypes };
 
-export type action =
+export type Action =
   | {
       type: "SET";
-      values: actionDataPairs;
+      values: ActionDataPairs;
     }
-  | { type: "ERROR"; field: keyof state };
+  | { type: "ERROR"; field: keyof DataReducerState };
 
-const Data = (state: state = defaultState, action: action) => {
+export const DataReducer = (
+  state: DataReducerState = defaultState,
+  action: Action
+): DataReducerState => {
   switch (action.type) {
     case "SET":
       return { ...state, [action.values.field]: action.values.data };
@@ -43,4 +46,3 @@ const Data = (state: state = defaultState, action: action) => {
   }
 };
 
-export default Data;

@@ -1,11 +1,11 @@
-import { action, actionDataPairs, state } from "./Reducer";
+import { Action, ActionDataPairs, DataReducerState } from "./Reducer";
 
-export const SetData = (options: actionDataPairs): action => ({
+export const SetData = (options: ActionDataPairs): Action => ({
   type: "SET",
   values: options,
 });
 
-export const SetError = (field: keyof state): action => ({
+export const SetError = (field: keyof DataReducerState): Action => ({
   type: "ERROR",
   field: field,
 });
