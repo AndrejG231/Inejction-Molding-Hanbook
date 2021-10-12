@@ -1,22 +1,41 @@
 import React, { FC, useMemo } from "react";
 import { getMaxMin } from "../../utilities/getMaxMin";
 import { Text, Box, Center, Flex } from "@chakra-ui/react";
-import { materials } from "../../data/data";
 import { plansToMaterials } from "../../utilities/plansToMaterials";
 import { getShift } from "../../utilities/getShift";
 import { ReduxStoreT } from "../../redux/reduxStore";
 import { useSelector } from "react-redux";
 import { msToDisplay } from "../../utilities/msToDisplay";
+import { useMaterials, useParts } from "../../data/hooks";
 
 const colors = ["LawnGreen", "aqua", "DarkOrchid", "Gold", "Chartreuse", "Red"];
 
 const MaterialFlow: FC = () => {
-  const {plan} = useSelector((state: ReduxStoreT) => ({
-    plan: state.plans.plans
-  }))
+  const materials = useMaterials();
+  const parts = useParts();
+  const { plan } = useSelector((state: ReduxStoreT) => ({
+    plan: state.plans.plans,
+  }));
   const { min } = getMaxMin(plan, "time");
   const { startTime, endTime } = getShift(min);
-  const materialPlan = useMemo(() => plansToMaterials(plan, endTime), [plan, endTime]);
+
+  const materialPlan = useMemo(
+    () =>
+      parts && typeof parts !== "string"
+        ? plansToMaterials(plan, endTime, parts)
+        : null,
+    [plan, endTime, parts]
+  );
+
+  // Uses materials
+  if (!materials || !parts) {
+    return <div>Loading..</div>;
+  }
+
+  if (materials === "error" || parts === "error" || !materialPlan) {
+    return <div>Could not neccessary data.</div>;
+  }
+
   return (
     <Flex
       h="100%"
@@ -59,18 +78,17 @@ const MaterialFlow: FC = () => {
                     p="2px"
                     top={`${
                       ((swtch.start - startTime) / (30 * 60 * 1000)) *
-                      (100 / 16) 
+                      (100 / 16)
                     }%`}
                     h={`${
                       ((swtch.end - swtch.start) / (30 * 60 * 1000)) *
-                      (100 / 16) 
+                      (100 / 16)
                     }%`}
                   >
                     <Text fontSize="22px">{swtch.volume}</Text>
-                      <Text fontSize="15px">
-                        {msToDisplay(swtch.start)}
-                        -{msToDisplay(swtch.end)}
-                      </Text>
+                    <Text fontSize="15px">
+                      {msToDisplay(swtch.start)}-{msToDisplay(swtch.end)}
+                    </Text>
                   </Flex>
                 );
               })}

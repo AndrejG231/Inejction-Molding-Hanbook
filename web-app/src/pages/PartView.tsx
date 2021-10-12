@@ -4,15 +4,28 @@ import { useHistory, useParams } from "react-router-dom";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { TiArrowBack } from "react-icons/ti";
 
-import { parts, materials, imms } from "../data/data";
 import { parseMaterialCookies } from "../utilities/parseMaterialCookies";
 import { toMaterialSources } from "../utilities/toMaterialSources";
+import { useImms, useMaterials, useParts } from "../data/hooks";
+import { DataError, DataLoading } from "../components/DataHandlers";
 
 export const PartView = () => {
+  const parts = useParts();
+  const materials = useMaterials();
+  const imms = useImms();
+
   const nav = useHistory();
-  const {partId: partIdStr} = useParams() as {partId: string};
+  const { partId: partIdStr } = useParams() as { partId: string };
   const partId = parseInt(partIdStr);
   const materialSources = toMaterialSources(parseMaterialCookies());
+
+  if (!parts || !materials || !imms) {
+    return <DataLoading />;
+  }
+
+  if (parts === "error" || materials === "error" || imms === "error") {
+    return <DataError />;
+  }
 
   return (
     <Flex
@@ -29,7 +42,7 @@ export const PartView = () => {
         Molds:
       </Heading>
       {parts[partId].molds.map((mold, index) => {
-        console.log(mold)
+        console.log(mold);
         return (
           <Flex bg="teal.300" p="15px" w="93%" borderRadius="10px" key={index}>
             <Heading size="sm" mr="auto">

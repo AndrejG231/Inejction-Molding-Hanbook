@@ -1,11 +1,18 @@
 import { editValuesT } from "../redux/Plans/Reducer";
-import { parts } from "../data/data";
+import { partsJsonTypes } from "../types/jsonTypes";
 import { plansToImms } from "./planToImms";
 
-export const plansToMaterials = (plan: editValuesT[], max: number) => {
+export const plansToMaterials = (
+  plan: editValuesT[],
+  max: number,
+  parts: partsJsonTypes
+) => {
   // Function that calculates usage of materials per switch time segments
   const immPlan = plansToImms(plan);
-  const matPlan: Record<string, { start: number; end: number; volume: number }[]> = {};
+  const matPlan: Record<
+    string,
+    { start: number; end: number; volume: number }[]
+  > = {};
 
   for (const imm of Object.keys(immPlan)) {
     for (let i = 0; i < immPlan[imm].length; i++) {
@@ -23,7 +30,7 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
       for (const mat of materials) {
         const volume = mat.volume;
         if (matPlan.hasOwnProperty(mat.id)) {
-          // Case of current material already in list 
+          // Case of current material already in list
           for (let j = 0; j < matPlan[mat.id].length; j++) {
             let segment = matPlan[mat.id][j];
 
@@ -43,7 +50,11 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
                   // Insert in front of next and merge into split part of next
                   const newSegments = [
                     { start: start, end: segment.start, volume },
-                    { start: segment.start, end: end, volume: volume + segment.volume },
+                    {
+                      start: segment.start,
+                      end: end,
+                      volume: volume + segment.volume,
+                    },
                     { start: end, end: segment.end, volume: segment.volume },
                   ];
 
@@ -59,7 +70,11 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
                   // Insert in front, and merge whole next
                   const newSegments = [
                     { start, end: segment.start, volume: volume },
-                    { start: segment.start, end, volume: segment.volume + volume },
+                    {
+                      start: segment.start,
+                      end,
+                      volume: segment.volume + volume,
+                    },
                   ];
 
                   matPlan[mat.id] = [
@@ -124,7 +139,11 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
                 // Inside of next segment => split and merge into center part
                 if (end < segment.end) {
                   const newSegments = [
-                    { start: segment.start, end: start, volume: segment.volume },
+                    {
+                      start: segment.start,
+                      end: start,
+                      volume: segment.volume,
+                    },
                     { start, end, volume: segment.volume + volume },
                     { start: end, end: segment.end, volume: segment.volume },
                   ];
@@ -140,7 +159,11 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
                 } else if (end === segment.end) {
                   // Start inside and same end => merge till end of next
                   const newSegments = [
-                    { start: segment.start, end: start, volume: segment.volume },
+                    {
+                      start: segment.start,
+                      end: start,
+                      volume: segment.volume,
+                    },
                     { start, end, volume: volume + segment.volume },
                   ];
 
@@ -154,8 +177,16 @@ export const plansToMaterials = (plan: editValuesT[], max: number) => {
                   break;
                 } else {
                   const newSegments = [
-                    { start: segment.start, end: start, volume: segment.volume },
-                    { start, end: segment.end, volume: volume + segment.volume },
+                    {
+                      start: segment.start,
+                      end: start,
+                      volume: segment.volume,
+                    },
+                    {
+                      start,
+                      end: segment.end,
+                      volume: volume + segment.volume,
+                    },
                   ];
 
                   matPlan[mat.id] = [

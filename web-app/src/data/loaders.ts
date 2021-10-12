@@ -7,18 +7,13 @@ import {
 } from "../types/jsonTypes";
 import axios from "axios";
 
-const origin =
-  window.location.origin ||
-  window.location.protocol +
-    "//" +
-    window.location.hostname +
-    (window.location.port ? ":" + window.location.port : "");
+const origin = process.env.PUBLIC_URL;
 
 export const loadMaterials = async (dispatch: Dispatch) => {
   try {
     //   Fetch materials
     const { data }: { data: partsMaterialTypes } = await axios.get(
-      `${origin}/materials.json`
+      `${origin}/data/materials.json`
     );
 
     // Check materials
@@ -43,7 +38,7 @@ export const loadImms = async (dispatch: Dispatch) => {
   try {
     //   Fetch machines data
     const { data }: { data: partsImmsTypes } = await axios.get(
-      `${origin}/machines.json`
+      `${origin}/data/machines.json`
     );
 
     // Check checking machines data
@@ -70,7 +65,7 @@ export const loadParts = async (dispatch: Dispatch) => {
   try {
     //   Fetch parts
     const { data }: { data: partsJsonTypes } = await axios.get(
-      `${origin}/parts.json`
+      `${origin}/data/parts.json`
     );
 
     // Validate parts

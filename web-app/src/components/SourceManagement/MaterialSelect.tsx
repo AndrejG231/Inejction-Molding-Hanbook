@@ -2,16 +2,26 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { Button, VStack, Text } from "@chakra-ui/react";
 
-import { materials } from "../../data/data";
-
 import {
   setEditValue,
   setMatSelMode,
 } from "../../redux/SourceManagement/Actions";
-
+import { useMaterials } from "../../data/hooks";
+import { DataError, DataLoading } from "../DataHandlers";
 
 const MaterialSelect: FC = () => {
-  const dispatch = useDispatch()
+  const materials = useMaterials();
+  const dispatch = useDispatch();
+
+  // Data handling
+  if (!materials) {
+    return <DataLoading />;
+  }
+
+  if (materials === "error") {
+    return <DataError />;
+  }
+
   return (
     <VStack my="10px">
       {Object.keys(materials).map((material, index) => {

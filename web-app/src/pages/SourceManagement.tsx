@@ -6,8 +6,6 @@ import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import EditForm from "../components/SourceManagement/EditForm";
 import MaterialSelect from "../components/SourceManagement/MaterialSelect";
 
-import { materials } from "../data/data";
-
 import {
   setEditMode,
   reloadCookies,
@@ -15,6 +13,8 @@ import {
 } from "../redux/SourceManagement/Actions";
 import { ReduxStoreT } from "../redux/reduxStore";
 import { editValuesT } from "../redux/SourceManagement/Reducer";
+import { useMaterials } from "../data/hooks";
+import { DataError, DataLoading } from "../components/DataHandlers";
 
 const defaultEditState = {
   name: "",
@@ -22,15 +22,16 @@ const defaultEditState = {
   info: "",
 };
 
-
-
 const SourceManagement: FC = () => {
+  const materials = useMaterials();
   const dispatch = useDispatch();
-  const { editMode, selectionMode, sources } = useSelector((state: ReduxStoreT) => ({
-    editMode: state.sourceManagement.editMode,
-    selectionMode: state.sourceManagement.selectionMode,
-    sources: state.sourceManagement.sources,
-  }));
+  const { editMode, selectionMode, sources } = useSelector(
+    (state: ReduxStoreT) => ({
+      editMode: state.sourceManagement.editMode,
+      selectionMode: state.sourceManagement.selectionMode,
+      sources: state.sourceManagement.sources,
+    })
+  );
 
   useEffect(() => {
     if (!editMode) {
@@ -40,6 +41,14 @@ const SourceManagement: FC = () => {
 
   if (selectionMode) {
     return <MaterialSelect />;
+  }
+
+  if (!materials) {
+    return <DataLoading />;
+  }
+
+  if (materials === "error") {
+    return <DataError />;
   }
 
   if (editMode) {
@@ -103,4 +112,3 @@ const SourceManagement: FC = () => {
 };
 
 export default SourceManagement;
-

@@ -19,8 +19,9 @@ import {
 } from "../../redux/Plans/Actions";
 import { ReduxStoreT } from "../../redux/reduxStore";
 
-import { imms } from "../../data/data";
 import { msToDisplay } from "../../utilities/msToDisplay";
+import { useImms } from "../../data/hooks";
+import { DataError, DataLoading } from "../DataHandlers";
 
 const keys = [
   ["7", "8", "9"],
@@ -30,45 +31,87 @@ const keys = [
 ];
 
 export const PlansEdit: FC = () => {
+  const imms = useImms();
   const [selected, setSelected] = useState<"nextForm" | "previous">("nextForm");
 
-  const {values} = useSelector((state: ReduxStoreT) => ({ values: state.plans.editValues }));
+  const { values } = useSelector((state: ReduxStoreT) => ({
+    values: state.plans.editValues,
+  }));
   const dispatch = useDispatch();
 
   // Handle key pressed on screen or keyboard
-  const handleClick = useCallback((number: string) => {
-    if (number === "<") {
-      return dispatch(setEditValues({
-        ...values,
-        [selected]: values[selected].slice(0, -1),
-      }));
-    }
+  const handleClick = useCallback(
+    (number: string) => {
+      if (number === "<") {
+        return dispatch(
+          setEditValues({
+            ...values,
+            [selected]: values[selected].slice(0, -1),
+          })
+        );
+      }
 
-    if (number === "C") {
-      return dispatch(setEditValues({
-        ...values,
-        [selected]: "",
-      }));
-    }
-    return dispatch(setEditValues({ ...values, [selected]: values[selected] + number }));
-  }, [selected, values, dispatch]);
+      if (number === "C") {
+        return dispatch(
+          setEditValues({
+            ...values,
+            [selected]: "",
+          })
+        );
+      }
+      return dispatch(
+        setEditValues({ ...values, [selected]: values[selected] + number })
+      );
+    },
+    [selected, values, dispatch]
+  );
 
   // Keyboard only inputs handle
-  const handleKeyInput = useCallback((e: KeyboardEvent) => {
-    if(["0", "1", "2", "3", "4","5", "6", "7", "8", "9", "Backspace", "Escape"].includes(e.key)){
-      const key = e.key === "Backspace" ? "<" : e.key === "Escape" ? "C" : e.key;
-      return handleClick(key);
-    }
-    if(e.key === "Tab"){
-      e.preventDefault();
-      return selected === "nextForm" ? setSelected("previous") : setSelected('nextForm');
-    }
-  }, [ handleClick, selected, setSelected ])
+  const handleKeyInput = useCallback(
+    (e: KeyboardEvent) => {
+      if (
+        [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "Backspace",
+          "Escape",
+        ].includes(e.key)
+      ) {
+        const key =
+          e.key === "Backspace" ? "<" : e.key === "Escape" ? "C" : e.key;
+        return handleClick(key);
+      }
+      if (e.key === "Tab") {
+        e.preventDefault();
+        return selected === "nextForm"
+          ? setSelected("previous")
+          : setSelected("nextForm");
+      }
+    },
+    [handleClick, selected, setSelected]
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyInput);
-    return () => document.removeEventListener("keydown", handleKeyInput)
-  }, [handleKeyInput])
+    return () => document.removeEventListener("keydown", handleKeyInput);
+  }, [handleKeyInput]);
+
+  // data load handlers
+  if (!imms) {
+    return <DataLoading />;
+  }
+
+  if (imms === "error") {
+    return <DataError />;
+  }
 
   return (
     <Flex w="100%" h="100%" direction="row">
@@ -89,7 +132,12 @@ export const PlansEdit: FC = () => {
       </VStack>
       <Flex w="100%" py="5px" h="100%" direction={{ sm: "column", lg: "row" }}>
         {/* Main Editor content */}
-        <Flex direction="column" justify="space-evenly" align="stretch" ml="auto" >
+        <Flex
+          direction="column"
+          justify="space-evenly"
+          align="stretch"
+          ml="auto"
+        >
           <Box>
             <Heading mb="15px" textAlign="center">
               Time:
@@ -97,10 +145,12 @@ export const PlansEdit: FC = () => {
             <HStack p="7px" borderRadius="10px" h="50px" bg="teal" w="100%">
               <Button
                 onClick={() =>
-                  dispatch(setEditValues({
-                    ...values,
-                    time: values.time - 30 * 60 * 1000,
-                  }))
+                  dispatch(
+                    setEditValues({
+                      ...values,
+                      time: values.time - 30 * 60 * 1000,
+                    })
+                  )
                 }
               >
                 -30
@@ -113,10 +163,12 @@ export const PlansEdit: FC = () => {
               />
               <Button
                 onClick={() =>
-                  dispatch(setEditValues({
-                    ...values,
-                    time: values.time + 30 * 60 * 1000,
-                  }))
+                  dispatch(
+                    setEditValues({
+                      ...values,
+                      time: values.time + 30 * 60 * 1000,
+                    })
+                  )
                 }
               >
                 +30
@@ -173,8 +225,18 @@ export const PlansEdit: FC = () => {
           </Flex>
         </Flex>
         {/* FINISHING ACTION BUTTONS */}
-        <VStack spacing="5px" justify="stretch" align="stretch" p="10px" display={{sm: "flex", lg: "none"}}>
-          <Flex w="100%" justify="stretch" direction={{sm: "row", lg: "column"}}>
+        <VStack
+          spacing="5px"
+          justify="stretch"
+          align="stretch"
+          p="10px"
+          display={{ sm: "flex", lg: "none" }}
+        >
+          <Flex
+            w="100%"
+            justify="stretch"
+            direction={{ sm: "row", lg: "column" }}
+          >
             <Button
               flex={1}
               colorScheme="red"
@@ -197,8 +259,8 @@ export const PlansEdit: FC = () => {
           <Button
             colorScheme="yellow"
             onClick={() => {
-              dispatch(deleteSwitch())
-              dispatch(saveEdits())
+              dispatch(deleteSwitch());
+              dispatch(saveEdits());
             }}
           >
             Save & Next
@@ -215,7 +277,13 @@ export const PlansEdit: FC = () => {
           </Button>
         </VStack>
         {/* Finishing action buttons bigscreen */}
-        <Flex mr="15px" ml="auto" h="100%" direction="column" display={{sm: "none", lg: "flex"}}>
+        <Flex
+          mr="15px"
+          ml="auto"
+          h="100%"
+          direction="column"
+          display={{ sm: "none", lg: "flex" }}
+        >
           <Button
             my="10px"
             flex={1}
@@ -240,8 +308,8 @@ export const PlansEdit: FC = () => {
             my="10px"
             colorScheme="yellow"
             onClick={() => {
-              dispatch(deleteSwitch())
-              dispatch(saveEdits())
+              dispatch(deleteSwitch());
+              dispatch(saveEdits());
             }}
           >
             Save & Next
