@@ -4,10 +4,13 @@ import {
   partsMaterialTypes,
 } from "../../types/jsonTypes";
 
+// To check state of data fetching - no multiple data fetches
+export type DataInfoTypes = null | "error" | "loading";
+
 export type DataReducerState = {
-  parts: partsJsonTypes | null | "error";
-  imms: partsImmsTypes | null | "error";
-  materials: partsMaterialTypes | null | "error";
+  parts: partsJsonTypes | null | "error" | "loading";
+  imms: partsImmsTypes | null | "error" | "loading";
+  materials: partsMaterialTypes | null | "error" | "loading";
 };
 
 const defaultState = {
@@ -32,7 +35,8 @@ export type Action =
       type: "SET";
       values: ActionDataPairs;
     }
-  | { type: "ERROR"; field: keyof DataReducerState };
+  | { type: "ERROR"; field: keyof DataReducerState }
+  | { type: "LOADING"; field: keyof DataReducerState };
 
 export const DataReducer = (
   state: DataReducerState = defaultState,
@@ -41,8 +45,11 @@ export const DataReducer = (
   switch (action.type) {
     case "SET":
       return { ...state, [action.values.field]: action.values.data };
+    case "ERROR":
+      return { ...state, [action.field]: "error" };
+    case "LOADING":
+      return { ...state, [action.field]: "loading" };
     default:
       return state;
   }
 };
-

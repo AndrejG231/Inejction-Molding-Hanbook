@@ -12,7 +12,7 @@ export const Part: FC<PartProps> = ({ partIndex }) => {
   const nav = useHistory();
   const parts = useParts();
 
-  if (!parts) {
+  if (!parts || parts === "loading") {
     return <DataLoading />;
   }
 

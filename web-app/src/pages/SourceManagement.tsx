@@ -39,16 +39,17 @@ const SourceManagement: FC = () => {
     }
   }, [editMode, dispatch]);
 
-  if (selectionMode) {
-    return <MaterialSelect />;
-  }
 
-  if (!materials) {
+  if (!materials || materials === "loading") {
     return <DataLoading />;
   }
 
   if (materials === "error") {
     return <DataError />;
+  }
+
+  if (selectionMode) {
+    return <MaterialSelect />;
   }
 
   if (editMode) {

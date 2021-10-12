@@ -14,7 +14,7 @@ const MaterialSelect: FC = () => {
   const dispatch = useDispatch();
 
   // Data handling
-  if (!materials) {
+  if (!materials || materials === "loading") {
     return <DataLoading />;
   }
 

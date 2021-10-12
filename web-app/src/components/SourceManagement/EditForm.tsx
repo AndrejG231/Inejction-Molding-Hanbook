@@ -21,7 +21,7 @@ const EditForm: FC = () => {
   }));
   const [oldName] = useState(editData.name);
 
-  if (!materials) {
+  if (!materials || materials === "loading") {
     return <DataLoading />;
   }
 

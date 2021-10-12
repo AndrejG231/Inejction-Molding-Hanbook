@@ -30,7 +30,12 @@ export const PartListDisplay: FC<PartListProps> = ({ variant, search }) => {
     [openedCategories]
   );
 
-  if (!parts || !materialNames) {
+  if (
+    !parts ||
+    parts === "loading" ||
+    !materialNames ||
+    materialNames === "loading"
+  ) {
     return <DataLoading />;
   }
 

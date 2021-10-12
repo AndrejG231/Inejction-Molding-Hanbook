@@ -28,7 +28,7 @@ const MaterialFlow: FC = () => {
   );
 
   // Uses materials
-  if (!materials || !parts) {
+  if (!materials || materials === "loading" || !parts) {
     return <div>Loading..</div>;
   }
 

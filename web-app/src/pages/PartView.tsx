@@ -19,7 +19,14 @@ export const PartView = () => {
   const partId = parseInt(partIdStr);
   const materialSources = toMaterialSources(parseMaterialCookies());
 
-  if (!parts || !materials || !imms) {
+  if (
+    !parts ||
+    parts === "loading" ||
+    !materials ||
+    materials === "loading" ||
+    !imms ||
+    imms === "loading"
+  ) {
     return <DataLoading />;
   }
 
