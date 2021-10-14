@@ -1,14 +1,25 @@
 import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import { Center } from "@chakra-ui/react";
-import {parts} from "../../data/data";
+import { useParts } from "../../data/hooks";
+import { DataError, DataLoading } from "../DataHandlers";
 
 interface PartProps {
-  partIndex:number;
+  partIndex: number;
 }
 
 export const Part: FC<PartProps> = ({ partIndex }) => {
   const nav = useHistory();
+  const parts = useParts();
+
+  if (!parts || parts === "loading") {
+    return <DataLoading />;
+  }
+
+  if (parts === "error") {
+    return <DataError />;
+  }
+
   return (
     <Center
       cursor="pointer"

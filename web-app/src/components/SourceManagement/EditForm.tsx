@@ -2,8 +2,6 @@ import React, { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Flex, Input, Button, Spacer } from "@chakra-ui/react";
 
-import { materials } from "../../data/data";
-
 import {
   setEditMode,
   setEditValue,
@@ -12,11 +10,24 @@ import {
 
 import { ReduxStoreT } from "../../redux/reduxStore";
 import { createCookie, clearCookie } from "../../utilities/manageCookie";
+import { useMaterials } from "../../data/hooks";
+import { DataError, DataLoading } from "../DataHandlers";
 
 const EditForm: FC = () => {
+  const materials = useMaterials();
   const dispatch = useDispatch();
-  const { editData } = useSelector((state: ReduxStoreT) => ({ editData: state.sourceManagement.editValues }))
-  const [ oldName ] = useState(editData.name);
+  const { editData } = useSelector((state: ReduxStoreT) => ({
+    editData: state.sourceManagement.editValues,
+  }));
+  const [oldName] = useState(editData.name);
+
+  if (!materials || materials === "loading") {
+    return <DataLoading />;
+  }
+
+  if (materials === "error") {
+    return <DataError />;
+  }
 
   return (
     <Flex direction="column" m="10px" align="center" h="90%">
