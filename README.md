@@ -1,4 +1,4 @@
-# Injection Production Helper GUI
+# Injection Production GUI
 App concept supporting better organization, quality and simplification of work in Injection modling fields.
 
 **Features:**
